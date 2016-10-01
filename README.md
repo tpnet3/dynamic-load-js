@@ -1,1 +1,1 @@
-https://tpnet3.github.io/dynamic-load-js/dist/DynamicLoad.min.js
+https://tpnet3.github.io/dynamic-load-js/dist/v0.1/DynamicLoad.min.js
