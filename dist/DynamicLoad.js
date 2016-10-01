@@ -40,61 +40,9 @@ var DynamicLoad;
         return Http;
     }());
     DynamicLoad.Http = Http;
-    var LoadJs = (function () {
-        function LoadJs(src, type) {
-            this.type = "text/javascript";
-            this.callback = [];
-            this.src = src;
-            if (type)
-                this.type = type;
-        }
-        LoadJs.prototype.addCallback = function (func) {
-            if (func)
-                this.callback.push(func);
-            return this;
-        };
-        LoadJs.prototype.load = function () {
-            var _this = this;
-            this.js = LoadJs.loaded[this.src];
-            var callback = function () {
-                for (var i = 0; i < _this.callback.length; i++) {
-                    _this.callback[i]();
-                }
-            };
-            if (this.js && this.js.count > 0) {
-                this.js.count = this.js.count + 1;
-                callback();
-            }
-            else {
-                LoadJs.loaded[this.src] = { script: document.createElement("script"), count: 1 };
-                this.js = LoadJs.loaded[this.src];
-                this.js.script.type = this.type;
-                this.js.script.src = this.src;
-                this.js.script.onload = callback;
-                LoadJs.head.appendChild(this.js.script);
-            }
-            return this;
-        };
-        LoadJs.prototype.destroy = function () {
-            if (!this.js)
-                this.js = LoadJs.loaded[this.src];
-            this.js.count = this.js.count - 1;
-            if (this.js.count == 0) {
-                LoadJs.head.removeChild(this.js.script);
-                LoadJs.loaded[this.src] = null;
-                this.js = null;
-                return true;
-            }
-            return false;
-        };
-        LoadJs.getInstance = function (src, type) {
-            return new LoadJs(src, type);
-        };
-        LoadJs.head = document.getElementsByTagName("head")[0];
-        LoadJs.loaded = {};
-        return LoadJs;
-    }());
-    DynamicLoad.LoadJs = LoadJs;
+})(DynamicLoad || (DynamicLoad = {}));
+var DynamicLoad;
+(function (DynamicLoad) {
     var LoadCss = (function () {
         function LoadCss(href, type, rel) {
             this.type = "text/css";
@@ -153,12 +101,15 @@ var DynamicLoad;
         return LoadCss;
     }());
     DynamicLoad.LoadCss = LoadCss;
+})(DynamicLoad || (DynamicLoad = {}));
+var DynamicLoad;
+(function (DynamicLoad) {
     var LoadHtml = (function () {
         function LoadHtml(src) {
             var _this = this;
             this.jsList = [];
             this.callback = [];
-            this.http = Http.get(src)
+            this.http = DynamicLoad.Http.get(src)
                 .addCallback(function (status, responseText) {
                 var temp = document.createElement("div");
                 temp.innerHTML = responseText;
@@ -176,7 +127,7 @@ var DynamicLoad;
                     do {
                         loading++;
                         var responseScript = nextScripts[0];
-                        _this.jsList.push(LoadJs.getInstance(responseScript.src, responseScript.type).addCallback(function () {
+                        _this.jsList.push(DynamicLoad.LoadJs.getInstance(responseScript.src, responseScript.type).addCallback(function () {
                             loading--;
                             if (loading == 0) {
                                 callback();
@@ -214,6 +165,67 @@ var DynamicLoad;
         return LoadHtml;
     }());
     DynamicLoad.LoadHtml = LoadHtml;
+})(DynamicLoad || (DynamicLoad = {}));
+var DynamicLoad;
+(function (DynamicLoad) {
+    var LoadJs = (function () {
+        function LoadJs(src, type) {
+            this.type = "text/javascript";
+            this.callback = [];
+            this.src = src;
+            if (type)
+                this.type = type;
+        }
+        LoadJs.prototype.addCallback = function (func) {
+            if (func)
+                this.callback.push(func);
+            return this;
+        };
+        LoadJs.prototype.load = function () {
+            var _this = this;
+            this.js = LoadJs.loaded[this.src];
+            var callback = function () {
+                for (var i = 0; i < _this.callback.length; i++) {
+                    _this.callback[i]();
+                }
+            };
+            if (this.js && this.js.count > 0) {
+                this.js.count = this.js.count + 1;
+                callback();
+            }
+            else {
+                LoadJs.loaded[this.src] = { script: document.createElement("script"), count: 1 };
+                this.js = LoadJs.loaded[this.src];
+                this.js.script.type = this.type;
+                this.js.script.src = this.src;
+                this.js.script.onload = callback;
+                LoadJs.head.appendChild(this.js.script);
+            }
+            return this;
+        };
+        LoadJs.prototype.destroy = function () {
+            if (!this.js)
+                this.js = LoadJs.loaded[this.src];
+            this.js.count = this.js.count - 1;
+            if (this.js.count == 0) {
+                LoadJs.head.removeChild(this.js.script);
+                LoadJs.loaded[this.src] = null;
+                this.js = null;
+                return true;
+            }
+            return false;
+        };
+        LoadJs.getInstance = function (src, type) {
+            return new LoadJs(src, type);
+        };
+        LoadJs.head = document.getElementsByTagName("head")[0];
+        LoadJs.loaded = {};
+        return LoadJs;
+    }());
+    DynamicLoad.LoadJs = LoadJs;
+})(DynamicLoad || (DynamicLoad = {}));
+var DynamicLoad;
+(function (DynamicLoad) {
     var Location = (function () {
         function Location() {
         }
@@ -279,15 +291,18 @@ var DynamicLoad;
         return Location;
     }());
     DynamicLoad.Location = Location;
+})(DynamicLoad || (DynamicLoad = {}));
+var DynamicLoad;
+(function (DynamicLoad) {
     var Route = (function () {
         function Route() {
         }
         Route.uriListener = function (func) {
-            if (Location.enchantUrl()) {
+            if (DynamicLoad.Location.enchantUrl()) {
                 func();
             }
             window.addEventListener("hashchange", function () {
-                if (Location.enchantUrl()) {
+                if (DynamicLoad.Location.enchantUrl()) {
                     func();
                 }
             });
@@ -320,7 +335,7 @@ var DynamicLoad;
                     }
                 };
                 if (!Route.routes[url]) {
-                    Http.get(url)
+                    DynamicLoad.Http.get(url)
                         .addCallback(function (stat, res) {
                         Route.routes[url] = res;
                         routing(res);
@@ -345,7 +360,7 @@ var DynamicLoad;
                 }
             };
             Route.uriListener(function () {
-                var path = Location.path();
+                var path = DynamicLoad.Location.path();
                 for (var i = 0; i < Route.curJs.length; i++) {
                     if (Route.curJs[i].options.reload) {
                         callFunc(Route.curJs[i].options.destroy, window, Route.curJs[i].options.data, Route.curParams);
@@ -389,7 +404,7 @@ var DynamicLoad;
                                 var body = document.getElementById("body");
                                 if (!body)
                                     body = document.getElementsByTagName("body")[0];
-                                Route.curHtml = LoadHtml.getInstance(route.html);
+                                Route.curHtml = DynamicLoad.LoadHtml.getInstance(route.html);
                                 if (callback)
                                     Route.curHtml.addCallback(callback);
                                 Route.curHtml.addCallback(function () {
@@ -407,7 +422,7 @@ var DynamicLoad;
                         var loadCss = function () {
                             if (route.css) {
                                 for (var i = 0; i < route.css.length; i++) {
-                                    newCss.push(LoadCss.getInstance(route.css[i]).load());
+                                    newCss.push(DynamicLoad.LoadCss.getInstance(route.css[i]).load());
                                 }
                             }
                             destroyCss();
@@ -416,7 +431,7 @@ var DynamicLoad;
                             for (var i = 0; i < urls.length; i++) {
                                 var options = route.js[urls[i]];
                                 newJs.push({
-                                    loadJs: LoadJs.getInstance(urls[i]).addCallback(function () {
+                                    loadJs: DynamicLoad.LoadJs.getInstance(urls[i]).addCallback(function () {
                                         callFunc(options.create, window, options.data, Route.curParams);
                                     }).load(),
                                     options: options
@@ -433,7 +448,7 @@ var DynamicLoad;
                                     preloaded = true;
                                     loading++;
                                     newJs.push({
-                                        loadJs: LoadJs.getInstance(urls[i]).addCallback(function () {
+                                        loadJs: DynamicLoad.LoadJs.getInstance(urls[i]).addCallback(function () {
                                             callFunc(options.create, window, options.data, Route.curParams);
                                             loading--;
                                             if (loading == 0) {
