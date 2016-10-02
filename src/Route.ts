@@ -78,17 +78,16 @@ namespace DynamicLoad {
                 }
             };
 
-            var callFunc: (func: string, root: any, data: {}, params: {}) => void = (func: string, root: any, data: {}, params: {}) => {
+            var callFunc = (func: string, root: any, data: {}, params: {}) => {
                 if (func) {
-                    var split: string[] = func.split(".", 2);
+                    var split: string[] = func.split(".");
+                    var call: any = root;
 
-                    if (root[split[0]]) {
-                        if (split[1]) {
-                            callFunc(split[1], root[split[0]], data, params);
-                        } else {
-                            root[split[0]](params, data);
-                        }
-                    }
+                    for (var i:number = 0; i < split.length; i++)
+                      call = call[split[i]];
+
+                    if (typeof call == "function")
+                      call(params, data);
                 }
             };
 

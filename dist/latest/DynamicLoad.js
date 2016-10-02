@@ -343,15 +343,12 @@ var DynamicLoad;
             };
             var callFunc = function (func, root, data, params) {
                 if (func) {
-                    var split = func.split(".", 2);
-                    if (root[split[0]]) {
-                        if (split[1]) {
-                            callFunc(split[1], root[split[0]], data, params);
-                        }
-                        else {
-                            root[split[0]](params, data);
-                        }
-                    }
+                    var split = func.split(".");
+                    var call = root;
+                    for (var i = 0; i < split.length; i++)
+                        call = call[split[i]];
+                    if (typeof call == "function")
+                        call(params, data);
                 }
             };
             Route.uriListener(function () {

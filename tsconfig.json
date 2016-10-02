@@ -14,7 +14,7 @@
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-        "outFile": "./dist/DynamicLoad.js"
+        "outFile": "./dist/latest/DynamicLoad.js"
     },
     "exclude": [
         "node_modules",
