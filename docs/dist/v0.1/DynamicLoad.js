@@ -188,10 +188,11 @@ var DynamicLoad;
                 callback();
             }
             else {
+                var disabledCacheSrc = this.src + (this.src.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
                 LoadJs.loaded[this.src] = { script: document.createElement("script"), count: 1 };
                 this.js = LoadJs.loaded[this.src];
                 this.js.script.type = this.type;
-                this.js.script.src = this.src;
+                this.js.script.src = disabledCacheSrc;
                 this.js.script.onload = callback;
                 LoadJs.head.appendChild(this.js.script);
             }
