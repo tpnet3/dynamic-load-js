@@ -1,3 +1,3 @@
-https://tpnet3.github.io/dynamic-load-js/dist/v0.1/DynamicLoad.min.js
+https://tpnet3.github.io/dynamic-load-js/dist/latest/DynamicLoad.min.js
 
 bower install dynamic-load-js
