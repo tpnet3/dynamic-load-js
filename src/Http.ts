@@ -18,8 +18,10 @@ namespace DynamicLoad {
         private send(responseType: string): void {
             var callback: Array<(status?: number, responseText?: any) => void> = this.callback;
             var xhr: XMLHttpRequest = new XMLHttpRequest();
-            xhr.open(this.method, this.url, true);
-            xhr.setRequestHeader('Cache-Control', 'no-cache');
+
+            // Disabled Cache
+            var disabledCacheUrl = this.url + (this.url.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
+            xhr.open(this.method, disabledCacheUrl, true);
             xhr.onload = function() {
                 var response: string;
 
