@@ -1,3 +1,5 @@
+declare var componentHandler: any;
+
 namespace DynamicLoad {
 
     export class LoadHtml {
@@ -42,7 +44,14 @@ namespace DynamicLoad {
 
                     var body: HTMLBodyElement = temp.getElementsByTagName("body")[0];
 
+                    // Tric MDL
+                    if (componentHandler) componentHandler.downgradeElements(this.element);
+
+                    // set innerHTML
                     this.element.innerHTML = body ? body.innerHTML : temp.innerHTML;
+
+                    // Tric MDL
+                    if (componentHandler) componentHandler.upgradeElement(this.element);
                 });
         }
 
