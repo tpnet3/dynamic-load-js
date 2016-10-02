@@ -13,8 +13,8 @@ var DynamicLoad;
         Http.prototype.send = function (responseType) {
             var callback = this.callback;
             var xhr = new XMLHttpRequest();
-            xhr.open(this.method, this.url, true);
-            xhr.setRequestHeader('Cache-Control', 'no-cache');
+            var disabledCacheUrl = this.url + (this.url.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
+            xhr.open(this.method, disabledCacheUrl, true);
             xhr.onload = function () {
                 var response;
                 if (responseType == "json") {
