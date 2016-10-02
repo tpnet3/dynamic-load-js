@@ -138,11 +138,9 @@ var DynamicLoad;
                     } while (nextScripts.length != 0);
                 }
                 var body = temp.getElementsByTagName("body")[0];
-                if (componentHandler)
-                    componentHandler.downgradeElements(_this.element);
                 _this.element.innerHTML = body ? body.innerHTML : temp.innerHTML;
                 if (componentHandler)
-                    componentHandler.upgradeElement(_this.element);
+                    componentHandler.upgradeAllRegistered();
             });
         }
         LoadHtml.prototype.addCallback = function (func) {
