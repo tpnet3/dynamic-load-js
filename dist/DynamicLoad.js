@@ -14,6 +14,7 @@ var DynamicLoad;
             var callback = this.callback;
             var xhr = new XMLHttpRequest();
             xhr.open(this.method, this.url, true);
+            xhr.setRequestHeader('Cache-Control', 'no-cache');
             xhr.onload = function () {
                 var response;
                 if (responseType == "json") {
