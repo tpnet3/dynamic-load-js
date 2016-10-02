@@ -14,7 +14,7 @@ namespace DynamicLoad {
                     var temp: HTMLDivElement = document.createElement("div");
                     temp.innerHTML = responseText;
 
-                    var callback: () => void = () => {
+                    var callback = () => {
                         for (var i: number = 0; i < this.callback.length; i++) {
                             this.callback[i](status, responseText);
                         }
@@ -22,21 +22,10 @@ namespace DynamicLoad {
 
                     var nextScripts: NodeListOf<HTMLScriptElement> = temp.getElementsByTagName("script");
 
-                    if (nextScripts.length == 0) {
-                        callback();
-                    } else {
-                        var loading: number = 0;
-
+                    if (nextScripts.length != 0) {
                         do {
-                            loading++;
                             var responseScript: HTMLScriptElement = nextScripts[0];
-                            this.jsList.push(LoadJs.getInstance(responseScript.src, responseScript.type).addCallback(() => {
-                                loading--;
-
-                                if (loading == 0) {
-                                    callback();
-                                }
-                            }).load());
+                            this.jsList.push(LoadJs.getInstance(responseScript.src, responseScript.type).load());
                             temp.removeChild(responseScript);
                             nextScripts = temp.getElementsByTagName("script");
                         } while (nextScripts.length != 0);
@@ -49,6 +38,9 @@ namespace DynamicLoad {
 
                     // Tric MDL
                     if (componentHandler) componentHandler.upgradeAllRegistered();
+
+                    // Callback
+                    callback();
                 });
         }
 
