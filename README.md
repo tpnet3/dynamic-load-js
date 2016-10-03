@@ -42,7 +42,7 @@ route.json
         "create": "Home.create",
         "destroy": "Home.destroy",
         "data": {
-          "foo": "bar"
+          "app": "bar"
         }
       }
     }
@@ -55,7 +55,7 @@ route.json
         "create": "Home.create",
         "destroy": "Home.destroy",
         "data": {
-          "foo": "bar"
+          "app": "root"
         }
       }
     }
