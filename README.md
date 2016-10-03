@@ -14,7 +14,7 @@ bower install dynamic-load-js
 
 ## Usage
 index.html
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +30,7 @@ index.html
 ```
 
 route.json
-```
+```json
 {
   "/foo": "foo-route.json",
   "/foo/{*}": "foo-route.json",
