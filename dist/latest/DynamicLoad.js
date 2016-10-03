@@ -259,7 +259,14 @@ var DynamicLoad;
             var uri = this.uri();
             var q = uri.indexOf("?");
             var h = uri.indexOf("#");
-            return uri.slice(0, (q == -1 && h == -1 ? uri.length : (q != -1 && q < h ? q : h))).replace(/\/{2,}/g, "/");
+            var lastPathIndex = uri.length;
+            if (q != -1 && h != -1)
+                lastPathIndex = (q < h ? q : h);
+            else if (q != -1 && h == -1)
+                lastPathIndex = q;
+            else if (q == -1 && h != -1)
+                lastPathIndex = h;
+            return uri.slice(0, lastPathIndex).replace(/\/{2,}/g, "/");
         };
         Location.query = function (name) {
             var uri = this.uri();
