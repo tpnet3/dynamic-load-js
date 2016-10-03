@@ -66,5 +66,8 @@ route.json
 }
 ```
 
+## API Reference
+[Wiki](https://github.com/tpnet3/dynamic-load-js/wiki)
+
 ## License
 [MIT License](LICENSE)
