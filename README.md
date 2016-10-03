@@ -67,4 +67,4 @@ route.json
 ```
 
 ## License
-[LICENSE](MIT License)
+[MIT License](LICENCE)
