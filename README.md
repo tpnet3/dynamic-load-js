@@ -21,11 +21,11 @@ index.html
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE-edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Dynamic Load JS</title>
     <script type="text/javascript" src="https://tpnet3.github.io/dynamic-load-js/dist/latest/DynamicLoad.min.js"></script>
     <script>window.onload = function() { DynamicLoad.Route.run("route.json"); }</script>
 </head>
-<body></body>
+<body>Please wait...</body>
 </html>
 ```
 
