@@ -110,6 +110,8 @@ var DynamicLoad;
             var _this = this;
             this.jsList = [];
             this.callback = [];
+            this.src = src;
+            this.jsList = (LoadHtml.jsAllList[src] ? LoadHtml.jsAllList[src]["jsList"] : []);
             this.http = DynamicLoad.Http.get(src)
                 .addCallback(function (status, responseText) {
                 var temp = document.createElement("div");
@@ -127,6 +129,8 @@ var DynamicLoad;
                         temp.removeChild(responseScript);
                         nextScripts = temp.getElementsByTagName("script");
                     } while (nextScripts.length != 0);
+                    LoadHtml.jsAllList[src] = LoadHtml.jsAllList[src] || { jsList: _this.jsList, target: [] };
+                    LoadHtml.jsAllList[src]["target"].push(_this.element);
                 }
                 var body = temp.getElementsByTagName("body")[0];
                 _this.element.innerHTML = body ? body.innerHTML : temp.innerHTML;
@@ -147,15 +151,29 @@ var DynamicLoad;
         LoadHtml.prototype.destroy = function (elem) {
             if (elem)
                 this.element = elem;
-            this.element.innerHTML = "";
-            for (var i = 0; i < this.jsList.length; i++) {
-                this.jsList[i].destroy();
+            if (!this.element)
+                return;
+            var jsListObj = LoadHtml.jsAllList[this.src];
+            if (jsListObj) {
+                var target = jsListObj["target"];
+                var targetIndex = target.indexOf(this.element);
+                this.jsList = jsListObj["jsList"];
+                if (targetIndex != -1) {
+                    for (var i = 0; i < this.jsList.length; i++) {
+                        this.jsList[i].destroy();
+                    }
+                    target.splice(targetIndex, 1);
+                    if (target.length == 0) {
+                        delete LoadHtml.jsAllList[this.src];
+                    }
+                }
             }
-            this.jsList = [];
+            this.element.innerHTML = "";
         };
         LoadHtml.getInstance = function (src) {
             return new LoadHtml(src);
         };
+        LoadHtml.jsAllList = {};
         return LoadHtml;
     }());
     DynamicLoad.LoadHtml = LoadHtml;

@@ -4,11 +4,16 @@ namespace DynamicLoad {
 
     export class LoadHtml {
         private http: Http;
+        private src: string;
         private element: HTMLElement;
         private jsList: LoadJs[] = [];
         private callback: Array<(status?: number, responseText?: string) => void> = [];
+        private static jsAllList: { [index: string]: { jsList: LoadJs[], target: HTMLElement[] } } = {};
 
         constructor(src: string) {
+            this.src = src;
+            this.jsList = (LoadHtml.jsAllList[src] ? LoadHtml.jsAllList[src]["jsList"] : []);
+
             this.http = Http.get(src)
                 .addCallback((status: number, responseText: string) => {
                     var temp: HTMLDivElement = document.createElement("div");
@@ -29,6 +34,9 @@ namespace DynamicLoad {
                             temp.removeChild(responseScript);
                             nextScripts = temp.getElementsByTagName("script");
                         } while (nextScripts.length != 0);
+
+                        LoadHtml.jsAllList[src] = LoadHtml.jsAllList[src] || { jsList: this.jsList, target: [] };
+                        LoadHtml.jsAllList[src]["target"].push(this.element);
                     }
 
                     var body: HTMLBodyElement = temp.getElementsByTagName("body")[0];
@@ -57,15 +65,30 @@ namespace DynamicLoad {
 
         destroy(elem?: HTMLElement): void {
             if (elem) this.element = elem;
-            this.element.innerHTML = "";
+            if (!this.element) return;
 
-            for (var i: number = 0; i < this.jsList.length; i++) {
-                this.jsList[i].destroy();
+            var jsListObj = LoadHtml.jsAllList[this.src];
+
+            if (jsListObj) {
+                var target = jsListObj["target"];
+                var targetIndex = target.indexOf(this.element);
+                this.jsList = jsListObj["jsList"];
+
+                if (targetIndex != -1) {
+                      for (var i: number = 0; i < this.jsList.length; i++) {
+                          this.jsList[i].destroy();
+                      }
+
+                      target.splice(targetIndex, 1);
+
+                      if (target.length == 0) {
+                          delete LoadHtml.jsAllList[this.src]
+                      }
+                }
             }
 
-            this.jsList = [];
+            this.element.innerHTML = "";
         }
-
 
         static getInstance(src: string): LoadHtml {
             return new LoadHtml(src);
