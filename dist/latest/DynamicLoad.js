@@ -346,7 +346,8 @@ var DynamicLoad;
                     var split = func.split(".");
                     var call = root;
                     for (var i = 0; i < split.length; i++)
-                        call = call[split[i]];
+                        if (call[split[i]])
+                            call = call[split[i]];
                     if (typeof call == "function")
                         call(params, data);
                 }
