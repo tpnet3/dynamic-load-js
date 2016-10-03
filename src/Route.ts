@@ -86,6 +86,7 @@ namespace DynamicLoad {
                     for (var i: number = 0; i < split.length; i++) {
                         if (call[split[i]]) {
                             call = call[split[i]];
+                        } else {
                             return;
                         }
                     }
