@@ -36,7 +36,7 @@ route.json
   "/foo/{*}": "foo-route.json",
   "/bar/{param}": {
     "html": "home.html",
-    "css": ["main.css", "home.css"]
+    "css": ["main.css", "home.css"],
     "js": {
       "home.js": {
         "create": "Home.create",
@@ -49,7 +49,7 @@ route.json
   },
   "/": {
     "html": "home.html",
-    "css": ["main.css", "home.css"]
+    "css": ["main.css", "home.css"],
     "js": {
       "home.js": {
         "create": "Home.create",
