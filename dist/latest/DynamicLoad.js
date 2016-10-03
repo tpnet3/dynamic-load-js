@@ -230,7 +230,7 @@ var DynamicLoad;
             var splitIndex = href.indexOf("#!/") + 3;
             var firstHref = href.slice(0, splitIndex);
             var lastHref = href.slice(splitIndex);
-            lastHref = lastHref.replace(/\/+/g, "/");
+            lastHref = lastHref.replace(/\/{2,}/g, "/");
             if (lastHref.length > 0 && lastHref.slice(-1) == "/")
                 lastHref = lastHref.slice(0, -1);
             href = firstHref + lastHref;
@@ -259,7 +259,7 @@ var DynamicLoad;
             var uri = this.uri();
             var q = uri.indexOf("?");
             var h = uri.indexOf("#");
-            return uri.slice(0, (q == -1 && h == -1 ? uri.length : (q < h ? q : h))).replace(/\/{2,}/g, "/");
+            return uri.slice(0, (q == -1 && h == -1 ? uri.length : (q != -1 && q < h ? q : h))).replace(/\/{2,}/g, "/");
         };
         Location.query = function (name) {
             var uri = this.uri();
