@@ -6,13 +6,13 @@ namespace DynamicLoad {
         private http: Http;
         private src: string;
         private element: HTMLElement;
-        private jsList: LoadJs[] = [];
         private callback: Array<(status?: number, responseText?: string) => void> = [];
-        private static jsAllList: { [index: string]: { jsList: LoadJs[], target: HTMLElement[] } } = {};
+        //private jsList: LoadJs[] = [];
+        //private static jsAllList: { [index: string]: { jsList: LoadJs[], target: HTMLElement[] } } = {};
 
         constructor(src: string) {
             this.src = src;
-            this.jsList = (LoadHtml.jsAllList[src] ? LoadHtml.jsAllList[src]["jsList"] : []);
+            //this.jsList = (LoadHtml.jsAllList[src] ? LoadHtml.jsAllList[src]["jsList"] : []);
 
             this.http = Http.get(src)
                 .addCallback((status: number, responseText: string) => {
@@ -25,6 +25,7 @@ namespace DynamicLoad {
                         }
                     };
 
+                    /*
                     var nextScripts: NodeListOf<HTMLScriptElement> = temp.getElementsByTagName("script");
 
                     if (nextScripts.length != 0) {
@@ -38,6 +39,7 @@ namespace DynamicLoad {
                         LoadHtml.jsAllList[src] = LoadHtml.jsAllList[src] || { jsList: this.jsList, target: [] };
                         LoadHtml.jsAllList[src]["target"].push(this.element);
                     }
+                    */
 
                     var body: HTMLBodyElement = temp.getElementsByTagName("body")[0];
 
@@ -67,6 +69,7 @@ namespace DynamicLoad {
             if (elem) this.element = elem;
             if (!this.element) return;
 
+            /*
             var jsListObj = LoadHtml.jsAllList[this.src];
 
             if (jsListObj) {
@@ -86,6 +89,7 @@ namespace DynamicLoad {
                       }
                 }
             }
+            */
 
             this.element.innerHTML = "";
         }
