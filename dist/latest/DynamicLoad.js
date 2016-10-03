@@ -345,11 +345,15 @@ var DynamicLoad;
                 if (func) {
                     var split = func.split(".");
                     var call = root;
-                    for (var i = 0; i < split.length; i++)
-                        if (call[split[i]])
+                    for (var i = 0; i < split.length; i++) {
+                        if (call[split[i]]) {
                             call = call[split[i]];
-                    if (typeof call == "function")
+                            return;
+                        }
+                    }
+                    if (typeof call == "function") {
                         call(params, data);
+                    }
                 }
             };
             Route.uriListener(function () {
