@@ -83,11 +83,12 @@ namespace DynamicLoad {
                     var split: string[] = func.split(".");
                     var call: any = root;
 
-                    for (var i:number = 0; i < split.length; i++)
-                      call = call[split[i]];
+                    for (var i: number = 0; i < split.length; i++)
+                        if (call[split[i]])
+                            call = call[split[i]];
 
                     if (typeof call == "function")
-                      call(params, data);
+                        call(params, data);
                 }
             };
 
