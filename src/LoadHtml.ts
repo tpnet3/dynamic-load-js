@@ -6,6 +6,7 @@ namespace DynamicLoad {
         private http: Http;
         private src: string;
         private element: HTMLElement;
+        private isAppend: boolean = false;
         private callback: Array<(status?: number, responseText?: string) => void> = [];
         //private jsList: LoadJs[] = [];
         //private static jsAllList: { [index: string]: { jsList: LoadJs[], target: HTMLElement[] } } = {};
@@ -43,8 +44,13 @@ namespace DynamicLoad {
 
                     var body: HTMLBodyElement = temp.getElementsByTagName("body")[0];
 
-                    // set innerHTML
-                    this.element.innerHTML = body ? body.innerHTML : temp.innerHTML;
+                    if (this.isAppend) {
+                      // Set append
+                      this.element.appendChild(body ? body : temp);
+                    } else {
+                      // set innerHTML
+                      this.element.innerHTML = body ? body.innerHTML : temp.innerHTML;
+                    }
 
                     // Tric MDL
                     if (componentHandler) componentHandler.upgradeAllRegistered();
@@ -61,6 +67,14 @@ namespace DynamicLoad {
 
         put(elem: HTMLElement): LoadHtml {
             this.element = elem;
+            this.isAppend = false;
+            this.http.asString();
+            return this;
+        }
+
+        append(elem: HTMLElement): LoadHtml {
+            this.element = elem;
+            this.isAppend = true;
             this.http.asString();
             return this;
         }

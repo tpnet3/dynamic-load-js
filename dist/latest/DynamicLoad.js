@@ -108,6 +108,7 @@ var DynamicLoad;
     var LoadHtml = (function () {
         function LoadHtml(src) {
             var _this = this;
+            this.isAppend = false;
             this.callback = [];
             this.src = src;
             this.http = DynamicLoad.Http.get(src)
@@ -120,7 +121,12 @@ var DynamicLoad;
                     }
                 };
                 var body = temp.getElementsByTagName("body")[0];
-                _this.element.innerHTML = body ? body.innerHTML : temp.innerHTML;
+                if (_this.isAppend) {
+                    _this.element.appendChild(body ? body : temp);
+                }
+                else {
+                    _this.element.innerHTML = body ? body.innerHTML : temp.innerHTML;
+                }
                 if (componentHandler)
                     componentHandler.upgradeAllRegistered();
                 callback();
@@ -132,6 +138,13 @@ var DynamicLoad;
         };
         LoadHtml.prototype.put = function (elem) {
             this.element = elem;
+            this.isAppend = false;
+            this.http.asString();
+            return this;
+        };
+        LoadHtml.prototype.append = function (elem) {
+            this.element = elem;
+            this.isAppend = true;
             this.http.asString();
             return this;
         };
