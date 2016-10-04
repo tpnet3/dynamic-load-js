@@ -17,14 +17,25 @@ namespace DynamicLoad {
 
             this.http = Http.get(src)
                 .addCallback((status: number, responseText: string) => {
-                    var temp: HTMLDivElement = document.createElement("div");
+                    var temp: HTMLTemplateElement = document.createElement("template");
                     temp.innerHTML = responseText;
+
+                    var tempBody: HTMLBodyElement = temp.getElementsByTagName("body")[0];
+                    if (tempBody) temp.innerHTML = tempBody.innerHTML;
 
                     var callback = () => {
                         for (var i: number = 0; i < this.callback.length; i++) {
                             this.callback[i](status, responseText);
                         }
                     };
+
+                    var appendChildren = (elem: HTMLElement) => {
+                      var childNodes = temp.content.childNodes;
+
+                      for (var i = 0; i < childNodes.length; i++) {
+                        elem.appendChild(childNodes[i]);
+                      }
+                    }
 
                     /*
                     var nextScripts: NodeListOf<HTMLScriptElement> = temp.getElementsByTagName("script");
@@ -42,15 +53,11 @@ namespace DynamicLoad {
                     }
                     */
 
-                    var body: HTMLBodyElement = temp.getElementsByTagName("body")[0];
-
-                    if (this.isAppend) {
-                      // Set append
-                      this.element.appendChild(body ? body : temp);
-                    } else {
-                      // set innerHTML
-                      this.element.innerHTML = body ? body.innerHTML : temp.innerHTML;
+                    if ( ! this.isAppend) {
+                      this.element.innerHTML = "";
                     }
+
+                    appendChildren(this.element);
 
                     // Tric MDL
                     if (componentHandler) componentHandler.upgradeAllRegistered();
