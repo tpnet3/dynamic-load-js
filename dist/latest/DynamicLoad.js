@@ -113,20 +113,26 @@ var DynamicLoad;
             this.src = src;
             this.http = DynamicLoad.Http.get(src)
                 .addCallback(function (status, responseText) {
-                var temp = document.createElement("div");
+                var temp = document.createElement("template");
                 temp.innerHTML = responseText;
+                var tempBody = temp.getElementsByTagName("body")[0];
+                if (tempBody)
+                    temp.innerHTML = tempBody.innerHTML;
                 var callback = function () {
                     for (var i = 0; i < _this.callback.length; i++) {
                         _this.callback[i](status, responseText);
                     }
                 };
-                var body = temp.getElementsByTagName("body")[0];
-                if (_this.isAppend) {
-                    _this.element.appendChild(body ? body : temp);
+                var appendChildren = function (elem) {
+                    var childNodes = temp.content.childNodes;
+                    for (var i = 0; i < childNodes.length; i++) {
+                        elem.appendChild(childNodes[i]);
+                    }
+                };
+                if (!_this.isAppend) {
+                    _this.element.innerHTML = "";
                 }
-                else {
-                    _this.element.innerHTML = body ? body.innerHTML : temp.innerHTML;
-                }
+                appendChildren(_this.element);
                 if (componentHandler)
                     componentHandler.upgradeAllRegistered();
                 callback();
