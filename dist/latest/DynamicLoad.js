@@ -11,23 +11,36 @@ var DynamicLoad;
             return this;
         };
         Http.prototype.send = function (responseType) {
+            var _this = this;
             var callback = this.callback;
             var xhr = new XMLHttpRequest();
-            var disabledCacheUrl = this.url + (this.url.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
-            xhr.open(this.method, disabledCacheUrl, true);
-            xhr.onload = function () {
+            var runCallback = function (status, responseText) {
+                if (status)
+                    _this.status = status;
+                if (responseText)
+                    _this.responseText = responseText;
                 var response;
                 if (responseType == "json") {
-                    response = JSON.parse(xhr.responseText);
+                    response = JSON.parse(_this.responseText);
                 }
                 else {
-                    response = xhr.responseText;
+                    response = _this.responseText;
                 }
                 for (var i = 0; i < callback.length; i++) {
-                    callback[i](xhr.status, response);
+                    callback[i](status, response);
                 }
             };
-            xhr.send();
+            if (!this.responseText) {
+                var disabledCacheUrl = this.url + (this.url.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
+                xhr.open(this.method, disabledCacheUrl, true);
+                xhr.onload = function () {
+                    runCallback(xhr.status, xhr.responseText);
+                };
+                xhr.send();
+            }
+            else {
+                runCallback();
+            }
         };
         Http.prototype.asString = function () {
             this.send("string");
