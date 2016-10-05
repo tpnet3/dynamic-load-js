@@ -6,7 +6,7 @@ namespace DynamicLoad {
         private http: Http;
         private src: string;
         private element: HTMLElement;
-        private dataBindRule: {[index: string]: any};
+        private dataBindRule: { [index: string]: any };
         private isAppend: boolean = false;
         private callback: Array<(status?: number, responseText?: string) => void> = [];
         //private jsList: LoadJs[] = [];
@@ -25,12 +25,12 @@ namespace DynamicLoad {
                     //if (tempBody) temp.innerHTML = tempBody.innerHTML;
 
                     if (this.dataBindRule) {
-                      var keys = Object.keys(this.dataBindRule);
+                        var keys = Object.keys(this.dataBindRule);
 
-                      for (var i: number; i < keys.length; i++) {
-                        var regex = new RegExp("/{{" + keys[i] + "}}/g");
-                        temp.innerHTML = temp.innerHTML.replace(regex, this.dataBindRule[keys[i]]);
-                      }
+                        for (var i: number; i < keys.length; i++) {
+                            var regex = new RegExp("/{{" + keys[i] + "}}/g");
+                            temp.innerHTML = temp.innerHTML.replace(regex, this.dataBindRule[keys[i]]);
+                        }
                     }
 
                     var callback = () => {
@@ -40,11 +40,11 @@ namespace DynamicLoad {
                     };
 
                     var appendChildren = (elem: HTMLElement) => {
-                      var childNodes = temp.content.childNodes;
+                        var childNodes = temp.content.childNodes;
 
-                      for (var i = 0; i < childNodes.length; i++) {
-                        elem.appendChild(childNodes[i]);
-                      }
+                        for (var i = 0; i < childNodes.length; i++) {
+                            elem.appendChild(childNodes[i]);
+                        }
                     }
 
                     /*
@@ -63,8 +63,8 @@ namespace DynamicLoad {
                     }
                     */
 
-                    if ( ! this.isAppend) {
-                      this.element.innerHTML = "";
+                    if (!this.isAppend) {
+                        this.element.innerHTML = "";
                     }
 
                     appendChildren(this.element);
@@ -82,7 +82,7 @@ namespace DynamicLoad {
             return this;
         }
 
-        put(elem: HTMLElement, dataBindRule?: {[index: string]: any}): LoadHtml {
+        put(elem: HTMLElement, dataBindRule?: { [index: string]: any }): LoadHtml {
             this.element = elem;
             this.isAppend = false;
             this.dataBindRule = dataBindRule;
@@ -90,7 +90,7 @@ namespace DynamicLoad {
             return this;
         }
 
-        append(elem: HTMLElement, dataBindRule?: {[index: string]: any}): LoadHtml {
+        append(elem: HTMLElement, dataBindRule?: { [index: string]: any }): LoadHtml {
             this.element = elem;
             this.isAppend = true;
             this.dataBindRule = dataBindRule;
