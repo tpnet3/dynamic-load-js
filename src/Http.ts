@@ -37,7 +37,7 @@ namespace DynamicLoad {
               }
             }
 
-            if ( ! this.responseText) {
+            if ( ! this.status) {
               // Disabled Cache
               var disabledCacheUrl = this.url + (this.url.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
               xhr.open(this.method, disabledCacheUrl, true);

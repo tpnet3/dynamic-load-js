@@ -30,7 +30,7 @@ var DynamicLoad;
                     callback[i](status, response);
                 }
             };
-            if (!this.responseText) {
+            if (!this.status) {
                 var disabledCacheUrl = this.url + (this.url.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
                 xhr.open(this.method, disabledCacheUrl, true);
                 xhr.onload = function () {
