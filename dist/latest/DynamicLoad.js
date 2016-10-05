@@ -115,9 +115,13 @@ var DynamicLoad;
                 .addCallback(function (status, responseText) {
                 var temp = document.createElement("template");
                 temp.innerHTML = responseText;
-                var tempBody = temp.getElementsByTagName("body")[0];
-                if (tempBody)
-                    temp.innerHTML = tempBody.innerHTML;
+                if (_this.dataBindRule) {
+                    var keys = Object.keys(_this.dataBindRule);
+                    for (var i; i < keys.length; i++) {
+                        var regex = new RegExp("/{{" + keys[i] + "}}/g");
+                        temp.innerHTML = temp.innerHTML.replace(regex, _this.dataBindRule[keys[i]]);
+                    }
+                }
                 var callback = function () {
                     for (var i = 0; i < _this.callback.length; i++) {
                         _this.callback[i](status, responseText);
@@ -142,15 +146,17 @@ var DynamicLoad;
             this.callback.push(func);
             return this;
         };
-        LoadHtml.prototype.put = function (elem) {
+        LoadHtml.prototype.put = function (elem, dataBindRule) {
             this.element = elem;
             this.isAppend = false;
+            this.dataBindRule = dataBindRule;
             this.http.asString();
             return this;
         };
-        LoadHtml.prototype.append = function (elem) {
+        LoadHtml.prototype.append = function (elem, dataBindRule) {
             this.element = elem;
             this.isAppend = true;
+            this.dataBindRule = dataBindRule;
             this.http.asString();
             return this;
         };

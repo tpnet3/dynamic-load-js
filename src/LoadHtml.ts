@@ -6,6 +6,7 @@ namespace DynamicLoad {
         private http: Http;
         private src: string;
         private element: HTMLElement;
+        private dataBindRule: {[index: string]: any};
         private isAppend: boolean = false;
         private callback: Array<(status?: number, responseText?: string) => void> = [];
         //private jsList: LoadJs[] = [];
@@ -20,8 +21,17 @@ namespace DynamicLoad {
                     var temp: HTMLTemplateElement = document.createElement("template");
                     temp.innerHTML = responseText;
 
-                    var tempBody: HTMLBodyElement = temp.getElementsByTagName("body")[0];
-                    if (tempBody) temp.innerHTML = tempBody.innerHTML;
+                    //var tempBody: HTMLBodyElement = temp.getElementsByTagName("body")[0];
+                    //if (tempBody) temp.innerHTML = tempBody.innerHTML;
+
+                    if (this.dataBindRule) {
+                      var keys = Object.keys(this.dataBindRule);
+
+                      for (var i: number; i < keys.length; i++) {
+                        var regex = new RegExp("/{{" + keys[i] + "}}/g");
+                        temp.innerHTML = temp.innerHTML.replace(regex, this.dataBindRule[keys[i]]);
+                      }
+                    }
 
                     var callback = () => {
                         for (var i: number = 0; i < this.callback.length; i++) {
@@ -72,16 +82,18 @@ namespace DynamicLoad {
             return this;
         }
 
-        put(elem: HTMLElement): LoadHtml {
+        put(elem: HTMLElement, dataBindRule?: {[index: string]: any}): LoadHtml {
             this.element = elem;
             this.isAppend = false;
+            this.dataBindRule = dataBindRule;
             this.http.asString();
             return this;
         }
 
-        append(elem: HTMLElement): LoadHtml {
+        append(elem: HTMLElement, dataBindRule?: {[index: string]: any}): LoadHtml {
             this.element = elem;
             this.isAppend = true;
+            this.dataBindRule = dataBindRule;
             this.http.asString();
             return this;
         }
