@@ -57,11 +57,13 @@ var DynamicLoad;
             return this;
         };
         Http.prototype.asString = function (callback) {
-            this.addCallback(callback);
+            if (callback)
+                this.addCallback(callback);
             this.send("string");
         };
         Http.prototype.asJson = function (callback) {
-            this.addCallback(callback);
+            if (callback)
+                this.addCallback(callback);
             this.send("json");
         };
         Http.get = function (url) {
