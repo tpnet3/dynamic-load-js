@@ -35,6 +35,8 @@ var DynamicLoad;
                 var disabledCacheUrl = this.url + (this.url.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
                 xhr.open(this.method, disabledCacheUrl, true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
+                if (this.auth)
+                    xhr.setRequestHeader('Authorization', this.auth);
                 xhr.onload = function () {
                     runCallback(xhr.status, xhr.responseText);
                 };
@@ -48,6 +50,10 @@ var DynamicLoad;
             else {
                 runCallback();
             }
+        };
+        Http.prototype.setAuth = function (auth) {
+            this.auth = auth;
+            return this;
         };
         Http.prototype.setData = function (data) {
             this.data = data;

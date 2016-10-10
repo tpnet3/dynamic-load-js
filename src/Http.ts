@@ -4,6 +4,7 @@ namespace DynamicLoad {
         private method: string;
         private url: string;
         private status: number;
+        private auth: any;
         private data: any;
         private responseText: string;
         private callback: Array<(status?: number, response?: any) => void> = [];
@@ -44,6 +45,7 @@ namespace DynamicLoad {
               var disabledCacheUrl = this.url + (this.url.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
               xhr.open(this.method, disabledCacheUrl, true);
               xhr.setRequestHeader('Content-Type', 'application/json');
+              if (this.auth) xhr.setRequestHeader('Authorization', this.auth);
               xhr.onload = () => {
                   runCallback(xhr.status, xhr.responseText);
               };
@@ -56,6 +58,11 @@ namespace DynamicLoad {
             } else {
               runCallback();
             }
+        }
+
+        setAuth(auth: string): Http {
+          this.auth = auth;
+          return this;
         }
 
         setData(data: any): Http {
