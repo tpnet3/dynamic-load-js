@@ -33,14 +33,27 @@ var DynamicLoad;
             if (!this.status) {
                 var disabledCacheUrl = this.url + (this.url.indexOf("?") == -1 ? "?" : "&") + "_=" + new Date().getTime();
                 xhr.open(this.method, disabledCacheUrl, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.onload = function () {
                     runCallback(xhr.status, xhr.responseText);
                 };
-                xhr.send();
+                if (this.data) {
+                    xhr.send(this.data);
+                }
+                else {
+                    xhr.send();
+                }
             }
             else {
                 runCallback();
             }
+        };
+        Http.prototype.setData = function (data) {
+            this.data = data;
+            if (typeof this.data != "string") {
+                this.data = JSON.stringify(this.data);
+            }
+            return this;
         };
         Http.prototype.asString = function () {
             this.send("string");
@@ -50,6 +63,15 @@ var DynamicLoad;
         };
         Http.get = function (url) {
             return new Http("GET", url);
+        };
+        Http.put = function (url, data) {
+            return new Http("PUT", url).setData(data);
+        };
+        Http.post = function (url, data) {
+            return new Http("POST", url).setData(data);
+        };
+        Http.delete = function (url, data) {
+            return new Http("DELETE", url).setData(data);
         };
         return Http;
     }());
