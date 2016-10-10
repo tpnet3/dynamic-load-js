@@ -68,14 +68,14 @@ namespace DynamicLoad {
             return this;
         }
 
-        asString(callback: (status?: number, response?: any) => void): void {
-            this.addCallback(callback);
+        asString(callback?: (status?: number, response?: any) => void): void {
+            if (callback) this.addCallback(callback);
             this.send("string");
         }
 
-        asJson(callback: (status?: number, response?: any) => void): void {
-          this.addCallback(callback);
-          this.send("json");
+        asJson(callback?: (status?: number, response?: any) => void): void {
+            if (callback) this.addCallback(callback);
+            this.send("json");
         }
 
         static get(url: string): Http {
