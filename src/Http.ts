@@ -8,9 +8,10 @@ namespace DynamicLoad {
         private responseText: string;
         private callback: Array<(status?: number, response?: any) => void> = [];
 
-        constructor(method: string, url: string) {
+        constructor(method: string, url: string, data?: any) {
             this.method = method;
             this.url = url;
+            this.setData(data);
         }
 
         addCallback(func: (status?: number, response?: any) => void): Http {
@@ -57,7 +58,7 @@ namespace DynamicLoad {
             }
         }
 
-        setData(data: any) {
+        setData(data: any): Http {
             this.data = data;
 
             if (typeof this.data != "string") {

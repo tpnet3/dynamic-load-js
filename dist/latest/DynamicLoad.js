@@ -1,10 +1,11 @@
 var DynamicLoad;
 (function (DynamicLoad) {
     var Http = (function () {
-        function Http(method, url) {
+        function Http(method, url, data) {
             this.callback = [];
             this.method = method;
             this.url = url;
+            this.setData(data);
         }
         Http.prototype.addCallback = function (func) {
             this.callback.push(func);
