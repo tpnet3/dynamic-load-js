@@ -46,7 +46,12 @@ namespace DynamicLoad {
               xhr.onload = () => {
                   runCallback(xhr.status, xhr.responseText);
               };
-              xhr.send(this.data);
+
+              if (this.data) {
+                xhr.send(this.data);
+              } else {
+                xhr.send();
+              }
             } else {
               runCallback();
             }
