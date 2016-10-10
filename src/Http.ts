@@ -14,8 +14,8 @@ namespace DynamicLoad {
             this.setData(data);
         }
 
-        addCallback(func: (status?: number, response?: any) => void): Http {
-            this.callback.push(func);
+        addCallback(callback: (status?: number, response?: any) => void): Http {
+            this.callback.push(callback);
             return this;
         }
 
@@ -68,12 +68,14 @@ namespace DynamicLoad {
             return this;
         }
 
-        asString(): void {
+        asString(callback: (status?: number, response?: any) => void): void {
+            this.addCallback(callback);
             this.send("string");
         }
 
-        asJson(): void {
-            this.send("json");
+        asJson(callback: (status?: number, response?: any) => void): void {
+          this.addCallback(callback);
+          this.send("json");
         }
 
         static get(url: string): Http {

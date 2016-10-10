@@ -7,8 +7,8 @@ var DynamicLoad;
             this.url = url;
             this.setData(data);
         }
-        Http.prototype.addCallback = function (func) {
-            this.callback.push(func);
+        Http.prototype.addCallback = function (callback) {
+            this.callback.push(callback);
             return this;
         };
         Http.prototype.send = function (responseType) {
@@ -56,10 +56,12 @@ var DynamicLoad;
             }
             return this;
         };
-        Http.prototype.asString = function () {
+        Http.prototype.asString = function (callback) {
+            this.addCallback(callback);
             this.send("string");
         };
-        Http.prototype.asJson = function () {
+        Http.prototype.asJson = function (callback) {
+            this.addCallback(callback);
             this.send("json");
         };
         Http.get = function (url) {
