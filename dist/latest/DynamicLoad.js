@@ -41,6 +41,9 @@ var DynamicLoad;
                 xhr.onload = function () {
                     runCallback(xhr.status, xhr.responseText);
                 };
+                xhr.onerror = function () {
+                    runCallback(xhr.status, xhr.responseText);
+                };
                 if (this.data) {
                     xhr.send(this.data);
                 }

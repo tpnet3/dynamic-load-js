@@ -47,7 +47,12 @@ namespace DynamicLoad {
               xhr.open(this.method, disabledCacheUrl, true);
               if (this.contentType) xhr.setRequestHeader('Content-Type', this.contentType);
               if (this.auth) xhr.setRequestHeader('Authorization', this.auth);
+              
               xhr.onload = () => {
+                  runCallback(xhr.status, xhr.responseText);
+              };
+
+              xhr.onerror = () => {
                   runCallback(xhr.status, xhr.responseText);
               };
 
