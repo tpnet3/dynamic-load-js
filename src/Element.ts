@@ -102,7 +102,10 @@ namespace DynamicLoad {
         repeat(data: [{[index: string]: any}], refresh?: boolean): Element {
             for (var i = 0; i < this.cloneNodes.length; i++) {
                 if (data.indexOf(this.cloneNodes[i].data) == -1) {
-                    this.parent.removeChild(this.cloneNodes[i].node);
+                    for (var k = 0; k < this.cloneNodes[i].nodes.length; k++) {
+                        this.parent.removeChild(this.cloneNodes[i].nodes[k]);
+                    }
+
                     this.cloneNodes.splice(i, 1);
                     --i;
                 }
