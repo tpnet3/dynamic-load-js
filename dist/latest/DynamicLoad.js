@@ -289,6 +289,8 @@ var DynamicLoad;
                     _this.element.innerHTML = "";
                 }
                 appendChildren(_this.element);
+                if (componentHandler)
+                    componentHandler.upgradeAllRegistered();
                 callback();
             });
         }
