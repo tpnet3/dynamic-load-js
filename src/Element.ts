@@ -9,6 +9,10 @@ namespace DynamicLoad {
 
         constructor(elemOrHtml: any, parent?: HTMLElement) {
             if (elemOrHtml instanceof HTMLElement) {
+                // MDL Tric
+                var mdlComponents = elemOrHtml.querySelectorAll('[data-upgraded]');
+                if (mdlComponents.length > 0) componentHandler.downgradeElements(mdlComponents);
+
                 var temp = document.createElement("div");
                 temp.appendChild(elemOrHtml.cloneNode(true));
 

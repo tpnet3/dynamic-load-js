@@ -4,6 +4,9 @@ var DynamicLoad;
         function Element(elemOrHtml, parent) {
             this.cloneNodes = [];
             if (elemOrHtml instanceof HTMLElement) {
+                var mdlComponents = elemOrHtml.querySelectorAll('[data-upgraded]');
+                if (mdlComponents.length > 0)
+                    componentHandler.downgradeElements(mdlComponents);
                 var temp = document.createElement("div");
                 temp.appendChild(elemOrHtml.cloneNode(true));
                 this.element = elemOrHtml;
