@@ -31,6 +31,8 @@ namespace DynamicLoad {
                             var regex = new RegExp("{{" + keys[i] + "}}", "g");
                             temp.innerHTML = temp.innerHTML.replace(regex, this.dataBindRule[keys[i]]);
                         }
+
+                        temp.innerHTML = temp.innerHTML.replace(/{{[^}]*}}/g, '');
                     }
 
                     var callback = () => {

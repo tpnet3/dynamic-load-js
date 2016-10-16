@@ -122,6 +122,7 @@ var DynamicLoad;
                     var regex = new RegExp("{{" + keys[i] + "}}", "g");
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
+                temp.innerHTML = temp.innerHTML.replace(/{{[^}]*}}/g, '');
             }
             var array = [];
             array.length = temp.childNodes.length;
@@ -311,6 +312,7 @@ var DynamicLoad;
                         var regex = new RegExp("{{" + keys[i] + "}}", "g");
                         temp.innerHTML = temp.innerHTML.replace(regex, _this.dataBindRule[keys[i]]);
                     }
+                    temp.innerHTML = temp.innerHTML.replace(/{{[^}]*}}/g, '');
                 }
                 var callback = function () {
                     for (var i = 0; i < _this.callback.length; i++) {
