@@ -235,6 +235,71 @@ var DynamicLoad;
 })(DynamicLoad || (DynamicLoad = {}));
 var DynamicLoad;
 (function (DynamicLoad) {
+    var Listener = (function () {
+        function Listener(element) {
+            this.handlers = [];
+            this.element = element;
+        }
+        Listener.prototype.inViewport = function (el, callback) {
+            var handler = Listener.onVisibilityChange(el, callback);
+            this.handlers.push({
+                events: ['DOMContentLoaded', 'load', 'scroll', 'resize'],
+                handler: handler
+            });
+            if (addEventListener) {
+                addEventListener('DOMContentLoaded', handler, false);
+                addEventListener('load', handler, false);
+                addEventListener('scroll', handler, false);
+                addEventListener('resize', handler, false);
+            }
+            else if (attachEvent) {
+                attachEvent('onDOMContentLoaded', handler);
+                attachEvent('onload', handler);
+                attachEvent('onscroll', handler);
+                attachEvent('onresize', handler);
+            }
+            return this;
+        };
+        Listener.prototype.destroy = function () {
+            for (var i = 0; i < this.handlers.length; i++) {
+                if (removeEventListener) {
+                    for (var j = 0; j < this.handlers.events.length; j++) {
+                        removeEventListener(this.handlers.events[j], this.handlers[i], false);
+                    }
+                }
+                else if (detachEvent) {
+                    for (var j = 0; j < this.handlers.events.length; j++) {
+                        detachEvent("on" + this.handlers.events[j], this.handlers[i], false);
+                    }
+                }
+            }
+            return this;
+        };
+        Listener.onVisibilityChange = function (el, callback) {
+            var old_visible;
+            return function () {
+                var visible = Listener.isElementInViewport(el);
+                if (visible != old_visible) {
+                    old_visible = visible;
+                    if (typeof callback == 'function') {
+                        callback();
+                    }
+                }
+            };
+        };
+        Listener.isElementInViewport = function (el) {
+            var rect = el.getBoundingClientRect();
+            return (rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth));
+        };
+        return Listener;
+    }());
+    DynamicLoad.Listener = Listener;
+})(DynamicLoad || (DynamicLoad = {}));
+var DynamicLoad;
+(function (DynamicLoad) {
     var LoadCss = (function () {
         function LoadCss(href, type, rel) {
             this.type = "text/css";
