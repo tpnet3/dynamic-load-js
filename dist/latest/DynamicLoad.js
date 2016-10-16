@@ -29,22 +29,29 @@ var DynamicLoad;
                 var keys = Object.keys(data);
                 for (var j = 0; j < keys.length; j++) {
                     if (this.cloneNodes[0].cloneData[keys[j]] != data[keys[j]]) {
-                        var bindedNode = this.bindedNode(data);
-                        this.parent.insertBefore(bindedNode, this.cloneNodes[0].node.nextSibling);
-                        this.parent.removeChild(this.cloneNodes[0].node);
-                        this.cloneNodes[0].node = bindedNode;
+                        var bindedNodes = this.bindedNodes(data);
+                        for (var k = bindedNodes.length; k >= 0; k--) {
+                            this.parent.insertBefore(bindedNodes[k], this.cloneNodes[0].nodes[this.cloneNodes[0].nodes.length - 1].nextSibling);
+                        }
+                        for (var k = 0; k < this.cloneNodes[0].nodes.length; k++) {
+                            this.parent.removeChild(this.cloneNodes[0].nodes[k]);
+                        }
+                        this.cloneNodes[0].nodes = bindedNodes;
                         this.cloneNodes[0].cloneData = JSON.parse(JSON.stringify(data));
                         break;
                     }
                 }
             }
             else {
-                var bindedNode = this.bindedNode(data);
-                this.parent.insertBefore(bindedNode, this.element.nextSibling);
+                var bindedNodes = this.bindedNodes(data);
+                var nextSibling = this.element ? this.element.nextSibling : this.parent.firstChild;
+                for (var k = bindedNodes.length; k >= 0; k--) {
+                    this.parent.insertBefore(bindedNodes[k], nextSibling);
+                }
                 this.cloneNodes.push({
                     data: data,
                     cloneData: JSON.parse(JSON.stringify(data)),
-                    node: bindedNode
+                    nodes: bindedNodes
                 });
             }
             return this;
@@ -54,10 +61,14 @@ var DynamicLoad;
                 var keys = Object.keys(this.cloneNodes[i].data);
                 for (var j = 0; j < keys.length; j++) {
                     if (this.cloneNodes[i].cloneData[keys[j]] != this.cloneNodes[i].data[keys[j]]) {
-                        var bindedNode = this.bindedNode(this.cloneNodes[i].data);
-                        this.parent.insertBefore(bindedNode, this.cloneNodes[i].node.nextSibling);
-                        this.parent.removeChild(this.cloneNodes[i].node);
-                        this.cloneNodes[i].node = bindedNode;
+                        var bindedNodes = this.bindedNodes(this.cloneNodes[i].data);
+                        for (var k = bindedNodes.length; k >= 0; k--) {
+                            this.parent.insertBefore(bindedNodes[k], this.cloneNodes[i].nodes[this.cloneNodes[i].nodes.length - 1].nextSibling);
+                        }
+                        for (var k = 0; k < this.cloneNodes[i].nodes.length; k++) {
+                            this.parent.removeChild(this.cloneNodes[i].nodes[k]);
+                        }
+                        this.cloneNodes[i].nodes = bindedNodes;
                         this.cloneNodes[i].cloneData = JSON.parse(JSON.stringify(this.cloneNodes[i].data));
                         break;
                     }
@@ -82,19 +93,20 @@ var DynamicLoad;
                     nextNodeIndex--;
                     continue;
                 }
-                var bindedNode = this.bindedNode(data[i]);
-                console.log(this.parent);
-                var nextSibling = nextNodeIndex == -1 ? (this.element ? this.element.nextSibling : this.parent.firstChild) : this.cloneNodes[nextNodeIndex].node.nextSibling;
-                this.parent.insertBefore(bindedNode, nextSibling);
+                var bindedNodes = this.bindedNodes(data[i]);
+                var nextSibling = nextNodeIndex == -1 ? (this.element ? this.element.nextSibling : this.parent.firstChild) : this.cloneNodes[nextNodeIndex].nodes[this.cloneNodes[nextNodeIndex].nodes.length - 1].nextSibling;
+                for (var k = bindedNodes.length; k >= 0; k--) {
+                    this.parent.insertBefore(bindedNodes[k], nextSibling);
+                }
                 this.cloneNodes.splice(nextNodeIndex + 1, 0, {
                     data: data[i],
                     cloneData: JSON.parse(JSON.stringify(data[i])),
-                    node: bindedNode
+                    nodes: bindedNodes
                 });
             }
             return this;
         };
-        Element.prototype.bindedNode = function (data) {
+        Element.prototype.bindedNodes = function (data) {
             var temp = document.createElement("div");
             temp.innerHTML = this.elemHTML;
             if (data) {
@@ -104,7 +116,7 @@ var DynamicLoad;
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
             }
-            return temp.firstChild;
+            return temp.childNodes;
         };
         return Element;
     }());
