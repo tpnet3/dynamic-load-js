@@ -29,7 +29,7 @@ namespace DynamicLoad {
                 this.element.attachEvent('onresize', handler);
             }
 
-            handler();
+            setTimeout(handler, 0);
 
             return this;
         }
