@@ -12,12 +12,16 @@ namespace DynamicLoad {
                 this.element = element;
                 this.elemHTML = element.innerHTML;
                 element.style.display = "none";
+
+                if (parent) parent.innerHTML = "";
+                this.parent = parent || element.parentNode;
             } else {
                 this.elemHTML = element;
+                
+                if (parent) parent.innerHTML = "";
+                this.parent = parent;
             }
 
-            if (parent) parent.innerHTML = "";
-            this.parent = parent || element.parentNode;
         }
 
         bind(data: {[index: string]: any}): Element {

@@ -7,13 +7,16 @@ var DynamicLoad;
                 this.element = element;
                 this.elemHTML = element.innerHTML;
                 element.style.display = "none";
+                if (parent)
+                    parent.innerHTML = "";
+                this.parent = parent || element.parentNode;
             }
             else {
                 this.elemHTML = element;
+                if (parent)
+                    parent.innerHTML = "";
+                this.parent = parent;
             }
-            if (parent)
-                parent.innerHTML = "";
-            this.parent = parent || element.parentNode;
         }
         Element.prototype.bind = function (data) {
             for (var i = 1; i < this.cloneNodes.length; i++) {
