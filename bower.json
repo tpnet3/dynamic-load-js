@@ -1,6 +1,8 @@
 {
-  "name": "dynamic-load-js",
-  "ignore": [
-    "docs"
-  ]
+
+    "name": "dynamic-load-js",
+    "ignore": [
+        "tests",
+        "docs"
+    ]
 }

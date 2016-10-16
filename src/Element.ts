@@ -21,6 +21,8 @@ namespace DynamicLoad {
 
             var bindedNode = this.bindedNode(data);
 
+            console.log(bindedNode);
+
             this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
 
             this.cloneNodes.push({
@@ -30,13 +32,17 @@ namespace DynamicLoad {
         }
 
         repeat(data: [{[index: string]: string}]) {
-            // TODO: Optimize duplicate data
-
+            // 없는 데이터제거
             for (var i = 0; i < this.cloneNodes.length; i++) {
-                this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                if (data.indexOf(this.cloneNodes[i].data) == -1) {
+                    this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                    this.cloneNodes.splice(i, 1);
+                    --i;
+                }
             }
 
-            this.cloneNodes = [];
+            var nextNode = this.cloneNodes[0];
+
 
             for (var i = data.length; i > 0; i--) {
                 var bindedNode = this.bindedNode(data[i]);
@@ -57,11 +63,15 @@ namespace DynamicLoad {
             if (data) {
                 var keys = Object.keys(data);
 
-                for (var i: number; i < keys.length; i++) {
+                for (var i = 0; i < keys.length; i++) {
                     var regex = new RegExp("/{{" + keys[i] + "}}/g");
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
+                    console.log(temp.innerHTML);
                 }
             }
+
+            console.log(data);
+            console.log(temp);
 
             return temp.content.childNodes[0];
         }

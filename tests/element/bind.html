@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <script type="text/javascript" src="../../dist/latest/DynamicLoad.min.js"></script>
+        <script>
+            window.onload = function() {
+                new DynamicLoad.Element(document.getElementById("foo"))
+                    .bind({
+                        bar: "baz"
+                    });
+            }
+        </script>
+    </head>
+    <body>
+        <div id="foo">
+            {{bar}}
+        </div>
+    </body>
+</html>

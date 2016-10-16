@@ -27,14 +27,14 @@ namespace DynamicLoad {
                     if (this.dataBindRule) {
                         var keys = Object.keys(this.dataBindRule);
 
-                        for (var i: number; i < keys.length; i++) {
+                        for (var i = 0; i < keys.length; i++) {
                             var regex = new RegExp("/{{" + keys[i] + "}}/g");
                             temp.innerHTML = temp.innerHTML.replace(regex, this.dataBindRule[keys[i]]);
                         }
                     }
 
                     var callback = () => {
-                        for (var i: number = 0; i < this.callback.length; i++) {
+                        for (var i = 0; i < this.callback.length; i++) {
                             this.callback[i](status, responseText);
                         }
                     };
