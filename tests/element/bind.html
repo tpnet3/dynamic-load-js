@@ -3,16 +3,20 @@
         <script type="text/javascript" src="../../dist/latest/DynamicLoad.min.js"></script>
         <script>
             window.onload = function() {
-                new DynamicLoad.Element(document.getElementById("foo"))
+                var fooElem = new DynamicLoad.Element(document.getElementById("foo"))
                     .bind({
-                        bar: "baz"
+                        bar: "first"
                     });
+
+                setTimeout(function() {
+                    fooElem.bind({
+                        bar: "second"
+                    });
+                }, 1000);
             }
         </script>
     </head>
     <body>
-        <div id="foo">
-            {{bar}}
-        </div>
+        <div>Hello <span id="foo">{{bar}}</span> world</div>
     </body>
 </html>
