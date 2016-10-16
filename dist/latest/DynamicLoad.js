@@ -267,12 +267,12 @@ var DynamicLoad;
             for (var i = 0; i < this.handlers.length; i++) {
                 if (this.element.removeEventListener) {
                     for (var j = 0; j < this.handlers[i].events.length; j++) {
-                        this.element.removeEventListener(this.handlers[i].events[j], this.handlers[i], false);
+                        this.element.removeEventListener(this.handlers[i].events[j], this.handlers[i].handler, false);
                     }
                 }
                 else if (this.element.detachEvent) {
                     for (var j = 0; j < this.handlers[i].events.length; j++) {
-                        this.element.detachEvent("on" + this.handlers[i].events[j], this.handlers[i], false);
+                        this.element.detachEvent("on" + this.handlers[i].events[j], this.handlers[i].handler, false);
                     }
                 }
             }
