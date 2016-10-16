@@ -118,9 +118,13 @@ var DynamicLoad;
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
             }
-            console.log(temp.childNodes);
-            console.log(Array.prototype.slice.call(temp.childNodes));
-            return Array.prototype.slice.call(temp.childNodes);
+            var array = [];
+            array.length = temp.childNodes.length;
+            for (var i = 0; i < temp.childNodes.length; i++) {
+                array[i] = temp.childNodes[i];
+            }
+            console.log(array);
+            return array;
         };
         return Element;
     }());
