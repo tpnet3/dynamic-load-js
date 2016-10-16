@@ -5,7 +5,7 @@ var DynamicLoad;
             this.cloneNodes = [];
             if (elemOrHtml instanceof HTMLElement) {
                 var temp = document.createElement("div");
-                temp.appendChild(elemOrHtml.cloneNode(true));
+                temp.appendChild(elemOrHtml.cloneNode(false));
                 this.element = elemOrHtml;
                 this.elemHTML = temp.innerHTML;
                 elemOrHtml.style.display = "none";
