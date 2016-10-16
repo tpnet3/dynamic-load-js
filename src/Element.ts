@@ -57,8 +57,8 @@ namespace DynamicLoad {
         }
 
         private bindedNode(data: {[index: string]: string}) {
-            var temp: HTMLTemplateElement = document.createElement("template");
-            temp.appendChild(this.elemNode);
+            var temp: HTMLDivElement = document.createElement("div");
+            temp.appendChild(this.elemNode.cloneNode(true));
 
             if (data) {
                 var keys = Object.keys(data);
@@ -66,14 +66,10 @@ namespace DynamicLoad {
                 for (var i = 0; i < keys.length; i++) {
                     var regex = new RegExp("/{{" + keys[i] + "}}/g");
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
-                    console.log(temp.innerHTML);
                 }
             }
 
-            console.log(data);
-            console.log(temp);
-
-            return temp.content.childNodes[0];
+            return temp.childNodes[0];
         }
     }
 }

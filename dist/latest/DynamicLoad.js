@@ -39,19 +39,16 @@ var DynamicLoad;
             }
         };
         Element.prototype.bindedNode = function (data) {
-            var temp = document.createElement("template");
-            temp.appendChild(this.elemNode);
+            var temp = document.createElement("div");
+            temp.appendChild(this.elemNode.cloneNode(true));
             if (data) {
                 var keys = Object.keys(data);
                 for (var i = 0; i < keys.length; i++) {
                     var regex = new RegExp("/{{" + keys[i] + "}}/g");
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
-                    console.log(temp.innerHTML);
                 }
             }
-            console.log(data);
-            console.log(temp);
-            return temp.content.childNodes[0];
+            return temp.childNodes[0];
         };
         return Element;
     }());
