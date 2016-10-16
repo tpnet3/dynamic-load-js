@@ -28,7 +28,7 @@ namespace DynamicLoad {
                         var keys = Object.keys(this.dataBindRule);
 
                         for (var i = 0; i < keys.length; i++) {
-                            var regex = new RegExp("/{{" + keys[i] + "}}/g");
+                            var regex = new RegExp("{{" + keys[i] + "}}", "g");
                             temp.innerHTML = temp.innerHTML.replace(regex, this.dataBindRule[keys[i]]);
                         }
                     }

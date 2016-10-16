@@ -226,12 +226,12 @@ var DynamicLoad;
             this.src = src;
             this.http = DynamicLoad.Http.get(src)
                 .addCallback(function (status, responseText) {
-                var temp = document.createElement("template");
+                var temp = document.createElement("div");
                 temp.innerHTML = responseText;
                 if (_this.dataBindRule) {
                     var keys = Object.keys(_this.dataBindRule);
                     for (var i = 0; i < keys.length; i++) {
-                        var regex = new RegExp("/{{" + keys[i] + "}}/g");
+                        var regex = new RegExp("{{" + keys[i] + "}}", "g");
                         temp.innerHTML = temp.innerHTML.replace(regex, _this.dataBindRule[keys[i]]);
                     }
                 }
@@ -241,7 +241,7 @@ var DynamicLoad;
                     }
                 };
                 var appendChildren = function (elem) {
-                    var childNodes = temp.content.childNodes;
+                    var childNodes = temp.childNodes;
                     for (var i = 0; i < childNodes.length; i++) {
                         elem.appendChild(childNodes[i]);
                     }
