@@ -176,12 +176,20 @@ namespace DynamicLoad {
                         }
 
                         var loadJs = (urls: string[]) => {
+                            var loading = 0;
+
                             for (var i: number = 0; i < urls.length; i++) {
                                 var options: RouteJsInterface = route.js[urls[i]];
 
                                 newJs.push({
                                     loadJs: LoadJs.getInstance(urls[i]).addCallback(() => {
                                         callFunc(options.create, window, options.data, Route.curParams);
+                                        
+                                        loading++;
+
+                                        if (componentHandler && loading == urls.length) {
+                                            componentHandler.upgradeAllRegistered();
+                                        }
                                     }).load(),
                                     options: options
                                 });

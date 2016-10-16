@@ -598,11 +598,16 @@ var DynamicLoad;
                             destroyCss();
                         };
                         var loadJs = function (urls) {
+                            var loading = 0;
                             for (var i = 0; i < urls.length; i++) {
                                 var options = route.js[urls[i]];
                                 newJs.push({
                                     loadJs: DynamicLoad.LoadJs.getInstance(urls[i]).addCallback(function () {
                                         callFunc(options.create, window, options.data, Route.curParams);
+                                        loading++;
+                                        if (componentHandler && loading == urls.length) {
+                                            componentHandler.upgradeAllRegistered();
+                                        }
                                     }).load(),
                                     options: options
                                 });
