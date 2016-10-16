@@ -34,8 +34,6 @@ var DynamicLoad;
                     node: bindedNode
                 });
             }
-            if (componentHandler)
-                componentHandler.upgradeAllRegistered();
             return this;
         };
         Element.prototype.refresh = function () {
@@ -52,8 +50,6 @@ var DynamicLoad;
                     }
                 }
             }
-            if (componentHandler)
-                componentHandler.upgradeAllRegistered();
             return this;
         };
         Element.prototype.repeat = function (data, refresh) {
@@ -82,8 +78,6 @@ var DynamicLoad;
                     node: bindedNode
                 });
             }
-            if (componentHandler)
-                componentHandler.upgradeAllRegistered();
             return this;
         };
         Element.prototype.bindedNode = function (data) {
