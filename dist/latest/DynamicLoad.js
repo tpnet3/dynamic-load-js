@@ -8,16 +8,48 @@ var DynamicLoad;
             this.element.style.display = "none";
         }
         Element.prototype.bind = function (data) {
-            for (var i = 0; i < this.cloneNodes.length; i++) {
+            for (var i = 1; i < this.cloneNodes.length; i++) {
                 this.element.parentNode.removeChild(this.cloneNodes[i].node);
             }
-            this.cloneNodes = [];
-            var bindedNode = this.bindedNode(data);
-            this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
-            this.cloneNodes.push({
-                data: data,
-                node: bindedNode
-            });
+            if (this.cloneNodes.length != 0) {
+                this.cloneNodes = [this.cloneNodes[0]];
+                var keys = Object.keys(data);
+                for (var j = 0; j < keys.length; j++) {
+                    if (this.cloneNodes[0].cloneData[keys[j]] != data[keys[j]]) {
+                        var bindedNode = this.bindedNode(data);
+                        this.element.parentNode.insertBefore(bindedNode, this.cloneNodes[0].node.nextSibling);
+                        this.element.parentNode.removeChild(this.cloneNodes[0].node);
+                        this.cloneNodes[0].node = bindedNode;
+                        this.cloneNodes[0].cloneData = JSON.parse(JSON.stringify(data));
+                        break;
+                    }
+                }
+            }
+            else {
+                var bindedNode = this.bindedNode(data);
+                this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
+                this.cloneNodes.push({
+                    data: data,
+                    cloneData: JSON.parse(JSON.stringify(data[i])),
+                    node: bindedNode
+                });
+            }
+            return this;
+        };
+        Element.prototype.refresh = function () {
+            for (var i = 0; i < this.cloneNodes.length; i++) {
+                var keys = Object.keys(this.cloneNodes[i].data);
+                for (var j = 0; j < keys.length; j++) {
+                    if (this.cloneNodes[i].cloneData[keys[j]] != this.cloneNodes[i].data[keys[j]]) {
+                        var bindedNode = this.bindedNode(this.cloneNodes[i].data);
+                        this.element.parentNode.insertBefore(bindedNode, this.cloneNodes[i].node.nextSibling);
+                        this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                        this.cloneNodes[i].node = bindedNode;
+                        this.cloneNodes[i].cloneData = JSON.parse(JSON.stringify(this.cloneNodes[i].data));
+                        break;
+                    }
+                }
+            }
             return this;
         };
         Element.prototype.repeat = function (data) {
@@ -28,6 +60,7 @@ var DynamicLoad;
                     --i;
                 }
             }
+            this.refresh();
             var nextNodeIndex = this.cloneNodes.length - 1;
             for (var i = data.length - 1; i >= 0; i--) {
                 if (nextNodeIndex != -1 && this.cloneNodes[nextNodeIndex].data === data[i]) {
@@ -39,6 +72,7 @@ var DynamicLoad;
                 this.element.parentNode.insertBefore(bindedNode, nextSibling);
                 this.cloneNodes.splice(nextNodeIndex + 1, 0, {
                     data: data[i],
+                    cloneData: JSON.parse(JSON.stringify(data[i])),
                     node: bindedNode
                 });
             }

@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <script type="text/javascript" src="../../dist/latest/DynamicLoad.js"></script>
+        <script>
+            window.onload = function() {
+                var val = {
+                    bar: "one "
+                };
+
+                var arr = [val, { bar: "second " }];
+
+                var fooElem = new DynamicLoad.Element(document.getElementById("foo")).repeat(arr);
+
+                setTimeout(function() {
+                    val.bar = "first ";
+                    fooElem.refresh();
+                }, 1000);
+            }
+        </script>
+    </head>
+    <body>
+        <div>Hello <span id="foo">{{bar}}</span> world</div>
+    </body>
+</html>

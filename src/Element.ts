@@ -13,20 +13,53 @@ namespace DynamicLoad {
         }
 
         bind(data: {[index: string]: any}): Element {
-            for (var i = 0; i < this.cloneNodes.length; i++) {
+            for (var i = 1; i < this.cloneNodes.length; i++) {
                 this.element.parentNode.removeChild(this.cloneNodes[i].node);
             }
 
-            this.cloneNodes = [];
+            if (this.cloneNodes.length != 0) {
+                this.cloneNodes = [this.cloneNodes[0]];
 
-            var bindedNode = this.bindedNode(data);
+                var keys = Object.keys(data);
 
-            this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
+                for (var j = 0; j < keys.length; j++) {
+                    if (this.cloneNodes[0].cloneData[keys[j]] != data[keys[j]]) {
+                        var bindedNode = this.bindedNode(data);
+                        this.element.parentNode.insertBefore(bindedNode, this.cloneNodes[0].node.nextSibling);
+                        this.element.parentNode.removeChild(this.cloneNodes[0].node);
+                        this.cloneNodes[0].node = bindedNode;
+                        this.cloneNodes[0].cloneData = JSON.parse(JSON.stringify(data));
+                        break;
+                    }
+                }
+            } else {
+                var bindedNode = this.bindedNode(data);
+                this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
+                this.cloneNodes.push({
+                    data: data,
+                    cloneData: JSON.parse(JSON.stringify(data[i])),
+                    node: bindedNode
+                });
+            }
 
-            this.cloneNodes.push({
-                data: data,
-                node: bindedNode
-            });
+            return this;
+        }
+
+        refresh(): Element {
+            for (var i = 0; i < this.cloneNodes.length; i++) {
+                var keys = Object.keys(this.cloneNodes[i].data);
+
+                for (var j = 0; j < keys.length; j++) {
+                    if (this.cloneNodes[i].cloneData[keys[j]] != this.cloneNodes[i].data[keys[j]]) {
+                        var bindedNode = this.bindedNode(this.cloneNodes[i].data);
+                        this.element.parentNode.insertBefore(bindedNode, this.cloneNodes[i].node.nextSibling);
+                        this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                        this.cloneNodes[i].node = bindedNode;
+                        this.cloneNodes[i].cloneData = JSON.parse(JSON.stringify(this.cloneNodes[i].data));
+                        break;
+                    }
+                }
+            }
 
             return this;
         }
@@ -39,6 +72,8 @@ namespace DynamicLoad {
                     --i;
                 }
             }
+
+            this.refresh();
 
             var nextNodeIndex = this.cloneNodes.length - 1;
 
@@ -56,6 +91,7 @@ namespace DynamicLoad {
 
                 this.cloneNodes.splice(nextNodeIndex + 1, 0, {
                     data: data[i],
+                    cloneData: JSON.parse(JSON.stringify(data[i])),
                     node: bindedNode
                 });
             }
