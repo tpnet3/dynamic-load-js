@@ -264,9 +264,6 @@ var DynamicLoad;
     }());
     DynamicLoad.LoadCss = LoadCss;
 })(DynamicLoad || (DynamicLoad = {}));
-if (componentHandler && loading == urls.length) {
-    componentHandler.upgradeAllRegistered();
-}
 var DynamicLoad;
 (function (DynamicLoad) {
     var LoadHtml = (function () {

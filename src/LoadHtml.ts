@@ -1,7 +1,4 @@
-
-                                        if (componentHandler && loading == urls.length) {
-                                            componentHandler.upgradeAllRegistered();
-                                        }declare var componentHandler: any;
+declare var componentHandler: any;
 
 namespace DynamicLoad {
 
