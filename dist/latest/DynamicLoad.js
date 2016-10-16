@@ -290,7 +290,7 @@ var DynamicLoad;
                 }
                 appendChildren(_this.element);
                 if (componentHandler)
-                    componentHandler.upgradeAllRegistered();
+                    componentHandler.upgradeDom();
                 callback();
             });
         }
