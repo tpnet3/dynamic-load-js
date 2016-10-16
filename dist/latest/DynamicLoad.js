@@ -266,16 +266,17 @@ var DynamicLoad;
         Listener.prototype.destroy = function () {
             for (var i = 0; i < this.handlers.length; i++) {
                 if (this.element.removeEventListener) {
-                    for (var j = 0; j < this.handlers.events.length; j++) {
-                        this.element.removeEventListener(this.handlers.events[j], this.handlers[i], false);
+                    for (var j = 0; j < this.handlers[i].events.length; j++) {
+                        this.element.removeEventListener(this.handlers[i].events[j], this.handlers[i], false);
                     }
                 }
                 else if (this.element.detachEvent) {
-                    for (var j = 0; j < this.handlers.events.length; j++) {
-                        this.element.detachEvent("on" + this.handlers.events[j], this.handlers[i], false);
+                    for (var j = 0; j < this.handlers[i].events.length; j++) {
+                        this.element.detachEvent("on" + this.handlers[i].events[j], this.handlers[i], false);
                     }
                 }
             }
+            this.handlers = [];
             return this;
         };
         Listener.onVisibilityChange = function (el, callback) {
@@ -292,7 +293,6 @@ var DynamicLoad;
         };
         Listener.isElementInViewport = function (el) {
             var rect = el.getBoundingClientRect();
-            console.log(rect);
             return (rect.top >= 0 &&
                 rect.left >= 0 &&
                 rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
