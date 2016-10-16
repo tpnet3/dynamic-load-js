@@ -162,7 +162,8 @@ namespace DynamicLoad {
                 array[i] = temp.childNodes[i];
             }
 
-            console.log(array);
+            console.log(temp.innerHTML);
+            console.log(temp.childNodes.length);
 
             return array;
         }
