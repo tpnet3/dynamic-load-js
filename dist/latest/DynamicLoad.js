@@ -261,6 +261,7 @@ var DynamicLoad;
                 this.element.attachEvent('onscroll', handler);
                 this.element.attachEvent('onresize', handler);
             }
+            handler();
             return this;
         };
         Listener.prototype.destroy = function () {

@@ -29,6 +29,8 @@ namespace DynamicLoad {
                 this.element.attachEvent('onresize', handler);
             }
 
+            handler();
+
             return this;
         }
 
