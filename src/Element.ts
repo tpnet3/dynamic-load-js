@@ -8,17 +8,16 @@ namespace DynamicLoad {
         cloneNodes = [];
 
         constructor(element: any, parent?: HTMLElement) {
-            if (parent) parent.innerHTML = "";
-
             if (element instanceof HTMLElement) {
                 this.element = element;
                 this.elemHTML = element.innerHTML;
-                this.parent = parent || element.parentNode;
                 element.style.display = "none";
             } else {
                 this.elemHTML = element;
-                this.parent = parent;
             }
+
+            if (parent) parent.innerHTML = "";
+            this.parent = parent || element.parentNode;
         }
 
         bind(data: {[index: string]: any}): Element {

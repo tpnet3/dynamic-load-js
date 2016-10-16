@@ -3,18 +3,17 @@ var DynamicLoad;
     var Element = (function () {
         function Element(element, parent) {
             this.cloneNodes = [];
-            if (parent)
-                parent.innerHTML = "";
             if (element instanceof HTMLElement) {
                 this.element = element;
                 this.elemHTML = element.innerHTML;
-                this.parent = parent || element.parentNode;
                 element.style.display = "none";
             }
             else {
                 this.elemHTML = element;
-                this.parent = parent;
             }
+            if (parent)
+                parent.innerHTML = "";
+            this.parent = parent || element.parentNode;
         }
         Element.prototype.bind = function (data) {
             for (var i = 1; i < this.cloneNodes.length; i++) {
