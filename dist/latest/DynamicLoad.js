@@ -289,9 +289,9 @@ var DynamicLoad;
                     _this.element.innerHTML = "";
                 }
                 appendChildren(_this.element);
-                callback();
                 if (componentHandler)
                     componentHandler.upgradeAllRegistered();
+                callback();
             });
         }
         LoadHtml.prototype.addCallback = function (func) {

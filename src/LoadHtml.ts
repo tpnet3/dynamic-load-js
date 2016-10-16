@@ -69,11 +69,11 @@ namespace DynamicLoad {
 
                     appendChildren(this.element);
 
-                    // Callback
-                    callback();
-                    
                     // Tric MDL
                     if (componentHandler) componentHandler.upgradeAllRegistered();
+
+                    // Callback
+                    callback();
                 });
         }
 
