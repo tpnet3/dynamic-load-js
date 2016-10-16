@@ -286,7 +286,7 @@ var DynamicLoad;
                 if (visible != old_visible) {
                     old_visible = visible;
                     if (typeof callback == 'function') {
-                        callback();
+                        callback(visible);
                     }
                 }
             };
