@@ -30,7 +30,7 @@ var DynamicLoad;
                 for (var j = 0; j < keys.length; j++) {
                     if (this.cloneNodes[0].cloneData[keys[j]] != data[keys[j]]) {
                         var bindedNodes = this.bindedNodes(data);
-                        for (var k = bindedNodes.length - 1; k >= 0; k--) {
+                        for (var k = 0; k < bindedNodes.length; k++) {
                             this.parent.insertBefore(bindedNodes[k], this.cloneNodes[0].nodes[this.cloneNodes[0].nodes.length - 1].nextSibling);
                         }
                         for (var k = 0; k < this.cloneNodes[0].nodes.length; k++) {
@@ -44,8 +44,8 @@ var DynamicLoad;
             }
             else {
                 var bindedNodes = this.bindedNodes(data);
-                for (var k = bindedNodes.length - 1; k >= 0; k--) {
-                    var nextSibling = this.element ? this.element.nextSibling : this.parent.firstChild;
+                var nextSibling = this.element ? this.element.nextSibling : this.parent.firstChild;
+                for (var k = 0; k < bindedNodes.length; k++) {
                     this.parent.insertBefore(bindedNodes[k], nextSibling);
                 }
                 this.cloneNodes.push({
@@ -62,7 +62,7 @@ var DynamicLoad;
                 for (var j = 0; j < keys.length; j++) {
                     if (this.cloneNodes[i].cloneData[keys[j]] != this.cloneNodes[i].data[keys[j]]) {
                         var bindedNodes = this.bindedNodes(this.cloneNodes[i].data);
-                        for (var k = bindedNodes.length - 1; k >= 0; k--) {
+                        for (var k = 0; k < bindedNodes.length; k++) {
                             this.parent.insertBefore(bindedNodes[k], this.cloneNodes[i].nodes[this.cloneNodes[i].nodes.length - 1].nextSibling);
                         }
                         for (var k = 0; k < this.cloneNodes[i].nodes.length; k++) {
@@ -97,7 +97,7 @@ var DynamicLoad;
                 }
                 var bindedNodes = this.bindedNodes(data[i]);
                 var nextSibling = nextNodeIndex == -1 ? (this.element ? this.element.nextSibling : this.parent.firstChild) : this.cloneNodes[nextNodeIndex].nodes[this.cloneNodes[nextNodeIndex].nodes.length - 1].nextSibling;
-                for (var k = bindedNodes.length - 1; k >= 0; k--) {
+                for (var k = 0; k < bindedNodes.length; k++) {
                     this.parent.insertBefore(bindedNodes[k], nextSibling);
                 }
                 this.cloneNodes.splice(nextNodeIndex + 1, 0, {
