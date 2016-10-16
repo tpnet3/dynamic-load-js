@@ -12,7 +12,6 @@ var DynamicLoad;
                 if (parent)
                     parent.innerHTML = "";
                 this.parent = parent || elemOrHtml.parentNode;
-                elemOrHtml.parentNode.removeChild(elemOrHtml);
             }
             else {
                 this.elemHTML = elemOrHtml;
