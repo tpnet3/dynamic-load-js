@@ -16,8 +16,6 @@ namespace DynamicLoad {
                 this.elemHTML = temp.innerHTML;
                 elemOrHtml.style.display = "none";
 
-                console.log(this.elemHTML);
-
                 if (parent) parent.innerHTML = "";
                 this.parent = parent || elemOrHtml.parentNode;
             } else {
@@ -131,6 +129,7 @@ namespace DynamicLoad {
                 }
             }
 
+            console.log(temp.innerHTML);
             console.log(temp.childNodes);
 
             return temp.childNodes[0];

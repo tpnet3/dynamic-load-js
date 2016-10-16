@@ -9,7 +9,6 @@ var DynamicLoad;
                 this.element = elemOrHtml;
                 this.elemHTML = temp.innerHTML;
                 elemOrHtml.style.display = "none";
-                console.log(this.elemHTML);
                 if (parent)
                     parent.innerHTML = "";
                 this.parent = parent || elemOrHtml.parentNode;
@@ -104,6 +103,7 @@ var DynamicLoad;
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
             }
+            console.log(temp.innerHTML);
             console.log(temp.childNodes);
             return temp.childNodes[0];
         };
