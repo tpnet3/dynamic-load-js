@@ -7,16 +7,18 @@ namespace DynamicLoad {
         elemHTML: string;
         cloneNodes = [];
 
-        constructor(element: any, parent?: HTMLElement) {
-            if (element instanceof HTMLElement) {
-                this.element = element;
-                this.elemHTML = element.innerHTML;
-                element.style.display = "none";
+        constructor(elemOrHtml: any, parent?: HTMLElement) {
+            if (elemOrHtml instanceof HTMLElement) {
+                this.element = elemOrHtml;
+                this.elemHTML = elemOrHtml.innerHTML;
+                elemOrHtml.style.display = "none";
+
+                console.log(elemOrHtml.innerHTML);
 
                 if (parent) parent.innerHTML = "";
-                this.parent = parent || element.parentNode;
+                this.parent = parent || elemOrHtml.parentNode;
             } else {
-                this.elemHTML = element;
+                this.elemHTML = elemOrHtml;
 
                 if (parent) parent.innerHTML = "";
                 this.parent = parent;
@@ -98,8 +100,6 @@ namespace DynamicLoad {
                 }
 
                 var bindedNode = this.bindedNode(data[i]);
-
-                console.log(bindedNode);
 
                 var nextSibling = nextNodeIndex == -1 ? (this.element ? this.element.nextSibling : this.parent.firstChild) : this.cloneNodes[nextNodeIndex].node.nextSibling;
 
