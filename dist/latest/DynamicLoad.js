@@ -13,7 +13,6 @@ var DynamicLoad;
             }
             this.cloneNodes = [];
             var bindedNode = this.bindedNode(data);
-            console.log(bindedNode);
             this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
             this.cloneNodes.push({
                 data: data,
@@ -44,7 +43,7 @@ var DynamicLoad;
             if (data) {
                 var keys = Object.keys(data);
                 for (var i = 0; i < keys.length; i++) {
-                    var regex = new RegExp("/{{" + keys[i] + "}}/g");
+                    var regex = new RegExp("{{" + keys[i] + "}}", "g");
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
             }
@@ -223,7 +222,7 @@ var DynamicLoad;
             this.src = src;
             this.http = DynamicLoad.Http.get(src)
                 .addCallback(function (status, responseText) {
-                var temp = document.createElement("template");
+                var temp = document.createElement("div");
                 temp.innerHTML = responseText;
                 if (_this.dataBindRule) {
                     var keys = Object.keys(_this.dataBindRule);
@@ -238,7 +237,7 @@ var DynamicLoad;
                     }
                 };
                 var appendChildren = function (elem) {
-                    var childNodes = temp.content.childNodes;
+                    var childNodes = temp.childNodes;
                     for (var i = 0; i < childNodes.length; i++) {
                         elem.appendChild(childNodes[i]);
                     }

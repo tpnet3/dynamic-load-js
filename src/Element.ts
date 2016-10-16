@@ -21,8 +21,6 @@ namespace DynamicLoad {
 
             var bindedNode = this.bindedNode(data);
 
-            console.log(bindedNode);
-
             this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
 
             this.cloneNodes.push({
@@ -64,7 +62,7 @@ namespace DynamicLoad {
                 var keys = Object.keys(data);
 
                 for (var i = 0; i < keys.length; i++) {
-                    var regex = new RegExp("/{{" + keys[i] + "}}/g");
+                    var regex = new RegExp("{{" + keys[i] + "}}", "g");
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
             }
