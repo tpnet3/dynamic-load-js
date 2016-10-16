@@ -57,9 +57,8 @@ namespace DynamicLoad {
             } else {
                 var bindedNodes = this.bindedNodes(data);
 
-                var nextSibling = this.element ? this.element.nextSibling : this.parent.firstChild
-
                 for (var k = bindedNodes.length - 1; k >= 0; k--) {
+                    var nextSibling = this.element ? this.element.nextSibling : this.parent.firstChild
                     this.parent.insertBefore(bindedNodes[k], nextSibling);
                 }
 
@@ -152,13 +151,6 @@ namespace DynamicLoad {
                     var regex = new RegExp("{{" + keys[i] + "}}", "g");
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
-            }
-
-            console.log(temp.innerHTML);
-            console.log(temp.childNodes.length);
-
-            for (var j = 0; j < temp.childNodes.length; j++) {
-                console.log(temp.childNodes[j]);
             }
 
             var array = [];
