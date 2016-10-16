@@ -64,7 +64,7 @@ namespace DynamicLoad {
             return this;
         }
 
-        repeat(data: [{[index: string]: any}]): Element {
+        repeat(data: [{[index: string]: any}], refresh?: boolean): Element {
             for (var i = 0; i < this.cloneNodes.length; i++) {
                 if (data.indexOf(this.cloneNodes[i].data) == -1) {
                     this.element.parentNode.removeChild(this.cloneNodes[i].node);
@@ -73,7 +73,9 @@ namespace DynamicLoad {
                 }
             }
 
-            this.refresh();
+            if (refresh) {
+                this.refresh();
+            }
 
             var nextNodeIndex = this.cloneNodes.length - 1;
 

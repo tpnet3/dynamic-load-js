@@ -52,7 +52,7 @@ var DynamicLoad;
             }
             return this;
         };
-        Element.prototype.repeat = function (data) {
+        Element.prototype.repeat = function (data, refresh) {
             for (var i = 0; i < this.cloneNodes.length; i++) {
                 if (data.indexOf(this.cloneNodes[i].data) == -1) {
                     this.element.parentNode.removeChild(this.cloneNodes[i].node);
@@ -60,7 +60,9 @@ var DynamicLoad;
                     --i;
                 }
             }
-            this.refresh();
+            if (refresh) {
+                this.refresh();
+            }
             var nextNodeIndex = this.cloneNodes.length - 1;
             for (var i = data.length - 1; i >= 0; i--) {
                 if (nextNodeIndex != -1 && this.cloneNodes[nextNodeIndex].data === data[i]) {
