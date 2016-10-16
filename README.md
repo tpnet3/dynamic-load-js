@@ -15,6 +15,7 @@ bower install dynamic-load-js
 ## License
 [MIT License](LICENSE)
 
+
 # API Reference
 
 ## DynamicLoad.Element
@@ -43,6 +44,7 @@ element.refresh();
 ```javascript
 element.repeat([{ bar: "first" }, { bar: "second" }], true);
 ```
+
 
 ## DynamicLoad.Http
 
@@ -98,6 +100,7 @@ httpGet.asJson(function(status, response) {
     // Get response as json
 });
 ```
+
 
 ## DynamicLoad.Listener
 
