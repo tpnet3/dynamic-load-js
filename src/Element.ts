@@ -27,10 +27,11 @@ namespace DynamicLoad {
                 data: data,
                 node: bindedNode
             });
+
+            return this;
         }
 
         repeat(data: [{[index: string]: string}]) {
-            // 없는 데이터제거
             for (var i = 0; i < this.cloneNodes.length; i++) {
                 if (data.indexOf(this.cloneNodes[i].data) == -1) {
                     this.element.parentNode.removeChild(this.cloneNodes[i].node);
@@ -39,19 +40,27 @@ namespace DynamicLoad {
                 }
             }
 
-            var nextNode = this.cloneNodes[0];
+            var nextNodeIndex = this.cloneNodes.length - 1;
 
+            for (var i = data.length - 1; i >= 0; i--) {
+                if (nextNodeIndex != -1 && this.cloneNodes[nextNodeIndex].data === data[i]) {
+                    nextNodeIndex--;
+                    continue;
+                }
 
-            for (var i = data.length; i > 0; i--) {
                 var bindedNode = this.bindedNode(data[i]);
 
-                this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
+                var nextSibling = nextNodeIndex == -1 ? this.element.nextSibling : this.cloneNodes[nextNodeIndex].node.nextSibling;
 
-                this.cloneNodes.unshift({
-                    data: data,
+                this.element.parentNode.insertBefore(bindedNode, nextSibling);
+
+                this.cloneNodes.splice(nextNodeIndex + 1, 0, {
+                    data: data[i],
                     node: bindedNode
                 });
             }
+
+            return this;
         }
 
         private bindedNode(data: {[index: string]: string}) {

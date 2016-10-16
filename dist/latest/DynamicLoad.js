@@ -18,6 +18,7 @@ var DynamicLoad;
                 data: data,
                 node: bindedNode
             });
+            return this;
         };
         Element.prototype.repeat = function (data) {
             for (var i = 0; i < this.cloneNodes.length; i++) {
@@ -27,15 +28,22 @@ var DynamicLoad;
                     --i;
                 }
             }
-            var nextNode = this.cloneNodes[0];
-            for (var i = data.length; i > 0; i--) {
+            var nextNodeIndex = this.cloneNodes.length - 1;
+            console.log(nextNodeIndex);
+            for (var i = data.length - 1; i >= 0; i--) {
+                if (nextNodeIndex != -1 && this.cloneNodes[nextNodeIndex].data === data[i]) {
+                    nextNodeIndex--;
+                    continue;
+                }
                 var bindedNode = this.bindedNode(data[i]);
-                this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
-                this.cloneNodes.unshift({
-                    data: data,
+                var nextSibling = nextNodeIndex == -1 ? this.element.nextSibling : this.cloneNodes[nextNodeIndex].node.nextSibling;
+                this.element.parentNode.insertBefore(bindedNode, nextSibling);
+                this.cloneNodes.splice(nextNodeIndex + 1, 0, {
+                    data: data[i],
                     node: bindedNode
                 });
             }
+            return this;
         };
         Element.prototype.bindedNode = function (data) {
             var temp = document.createElement("div");
