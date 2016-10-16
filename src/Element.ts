@@ -12,7 +12,7 @@ namespace DynamicLoad {
             this.element.style.display = "none";
         }
 
-        bind(data: {[index: string]: string}) {
+        bind(data: {[index: string]: any}) {
             for (var i = 0; i < this.cloneNodes.length; i++) {
                 this.element.parentNode.removeChild(this.cloneNodes[i].node);
             }
@@ -31,7 +31,7 @@ namespace DynamicLoad {
             return this;
         }
 
-        repeat(data: [{[index: string]: string}]) {
+        repeat(data: [{[index: string]: any}]) {
             for (var i = 0; i < this.cloneNodes.length; i++) {
                 if (data.indexOf(this.cloneNodes[i].data) == -1) {
                     this.element.parentNode.removeChild(this.cloneNodes[i].node);
@@ -63,7 +63,7 @@ namespace DynamicLoad {
             return this;
         }
 
-        private bindedNode(data: {[index: string]: string}) {
+        private bindedNode(data: {[index: string]: any}) {
             var temp: HTMLDivElement = document.createElement("div");
             temp.appendChild(this.elemNode.cloneNode(true));
 
