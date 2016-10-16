@@ -250,29 +250,29 @@ var DynamicLoad;
                 handler: handler
             });
             if (addEventListener) {
-                addEventListener('DOMContentLoaded', handler, false);
-                addEventListener('load', handler, false);
-                addEventListener('scroll', handler, false);
-                addEventListener('resize', handler, false);
+                this.element.addEventListener('DOMContentLoaded', handler, false);
+                this.element.addEventListener('load', handler, false);
+                this.element.addEventListener('scroll', handler, false);
+                this.element.addEventListener('resize', handler, false);
             }
-            else if (attachEvent) {
-                attachEvent('onDOMContentLoaded', handler);
-                attachEvent('onload', handler);
-                attachEvent('onscroll', handler);
-                attachEvent('onresize', handler);
+            else if (this.element.attachEvent) {
+                this.element.attachEvent('onDOMContentLoaded', handler);
+                this.element.attachEvent('onload', handler);
+                this.element.attachEvent('onscroll', handler);
+                this.element.attachEvent('onresize', handler);
             }
             return this;
         };
         Listener.prototype.destroy = function () {
             for (var i = 0; i < this.handlers.length; i++) {
-                if (removeEventListener) {
+                if (this.element.removeEventListener) {
                     for (var j = 0; j < this.handlers.events.length; j++) {
-                        removeEventListener(this.handlers.events[j], this.handlers[i], false);
+                        this.element.removeEventListener(this.handlers.events[j], this.handlers[i], false);
                     }
                 }
-                else if (detachEvent) {
+                else if (this.element.detachEvent) {
                     for (var j = 0; j < this.handlers.events.length; j++) {
-                        detachEvent("on" + this.handlers.events[j], this.handlers[i], false);
+                        this.element.detachEvent("on" + this.handlers.events[j], this.handlers[i], false);
                     }
                 }
             }
