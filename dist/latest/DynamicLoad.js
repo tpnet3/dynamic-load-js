@@ -30,7 +30,7 @@ var DynamicLoad;
                 this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
                 this.cloneNodes.push({
                     data: data,
-                    cloneData: JSON.parse(JSON.stringify(data[i])),
+                    cloneData: JSON.parse(JSON.stringify(data)),
                     node: bindedNode
                 });
             }
