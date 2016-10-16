@@ -17,7 +17,7 @@ namespace DynamicLoad {
                 this.parent = parent || element.parentNode;
             } else {
                 this.elemHTML = element;
-                
+
                 if (parent) parent.innerHTML = "";
                 this.parent = parent;
             }
@@ -98,6 +98,8 @@ namespace DynamicLoad {
                 }
 
                 var bindedNode = this.bindedNode(data[i]);
+
+                console.log(bindedNode);
 
                 var nextSibling = nextNodeIndex == -1 ? (this.element ? this.element.nextSibling : this.parent.firstChild) : this.cloneNodes[nextNodeIndex].node.nextSibling;
 
