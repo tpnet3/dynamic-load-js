@@ -12,62 +12,106 @@ Download via bower
 bower install dynamic-load-js
 ```
 
-## Usage
-index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Load JS</title>
-    <script type="text/javascript" src="https://tpnet3.github.io/dynamic-load-js/dist/latest/DynamicLoad.min.js"></script>
-    <script>window.onload = function() { DynamicLoad.Route.run("route.json"); }</script>
-</head>
-<body>Please wait...</body>
-</html>
+##DynamicLoad.Element
+
+###constructor(element: HTMLElement)
+```javascript
+var element = new DynamicLoad.Element(document.getElementById("foo"));
 ```
 
-route.json
-```json
-{
-  "/foo": "foo-route.json",
-  "/foo/{*}": "foo-route.json",
-  "/bar/{param}": {
-    "html": "home.html",
-    "css": ["main.css", "home.css"],
-    "js": {
-      "home.js": {
-        "create": "Home.create",
-        "destroy": "Home.destroy",
-        "data": {
-          "app": "bar"
-        }
-      }
-    }
-  },
-  "/": {
-    "html": "home.html",
-    "css": ["main.css", "home.css"],
-    "js": {
-      "home.js": {
-        "create": "Home.create",
-        "destroy": "Home.destroy",
-        "data": {
-          "app": "root"
-        }
-      }
-    }
-  },
-  "/{*}": {
-    "html": "not-found.html"
-  }
-}
+###getNodes(): [{nodes: Node[]}]
+```javascript
+element.getNodes();
 ```
 
-## API Reference
-[Wiki](https://github.com/tpnet3/dynamic-load-js/wiki)
+###bind(data: {[index: string]: any}): Element
+```javascript
+element.bind({ bar: "first" });
+```
+
+###refresh(): Element
+```javascript
+element.refresh();
+```
+
+###repeat(data: [{[index: string]: any}], refresh?: boolean): Element
+```javascript
+element.repeat([{ bar: "first" }, { bar: "second" }], true);
+```
+
+## DynamicLoad.Http
+
+### constructor(method: string, url: string, data?: any)
+```javascript
+new DynamicLoad.Http("METHOD", "sume/path", {});
+```
+
+### static get(url: string): Http
+```javascript
+var httpGet = DynamicLoad.Http.get("sume/path");
+```
+
+### static put(url: string, data?: any): Http
+```javascript
+var httpPut = DynamicLoad.Http.put("sume/path", {});
+```
+
+### static post(url: string, data?: any): Http
+```javascript
+var httpPost = DynamicLoad.Http.post("sume/path", {});
+```
+
+### static delete(url: string, data?: any): Http
+```javascript
+var httpDelete = DynamicLoad.Http.delete("sume/path", {});
+```
+
+### addCallback(callback: (status?: number, response?: any) => void): Http
+```javascript
+httpGet.addCallback(function(status, response) {
+    // Get response
+});
+```
+
+### setData(data: any): Http
+```javascript
+httpPost.setData({
+    foo: "bar"
+});
+```
+
+### asString(callback?: (status?: number, response?: any) => void): void
+```javascript
+httpGet.asString(function(status, response) {
+    // Get response as string
+});
+```
+
+### asJson(callback?: (status?: number, response?: any) => void): void
+```javascript
+httpGet.asJson(function(status, response) {
+    // Get response as json
+});
+```
+
+## DynamicLoad.Listener
+
+### constructor(element: HTMLElement)
+```javascript
+var listener = new DynamicLoad.Listener(document.getElementById("foo"));
+```
+
+### inViewport(el: HTMLElement, callback: (visible: boolean) => void): Listener
+```javascript
+listener.inViewport(document.getElementById("bar"), function(visible) {
+    // do
+})
+```
+
+### destroy(): Listener
+```javascript
+listener.destroy();
+```
 
 ## License
 [MIT License](LICENSE)
