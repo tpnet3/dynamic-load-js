@@ -29,7 +29,6 @@ var DynamicLoad;
                 }
             }
             var nextNodeIndex = this.cloneNodes.length - 1;
-            console.log(nextNodeIndex);
             for (var i = data.length - 1; i >= 0; i--) {
                 if (nextNodeIndex != -1 && this.cloneNodes[nextNodeIndex].data === data[i]) {
                     nextNodeIndex--;
@@ -235,7 +234,7 @@ var DynamicLoad;
                 if (_this.dataBindRule) {
                     var keys = Object.keys(_this.dataBindRule);
                     for (var i = 0; i < keys.length; i++) {
-                        var regex = new RegExp("{{" + keys[i] + "}}", "g");
+                        var regex = new RegExp("/{{" + keys[i] + "}}/g");
                         temp.innerHTML = temp.innerHTML.replace(regex, _this.dataBindRule[keys[i]]);
                     }
                 }
