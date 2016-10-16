@@ -9,8 +9,11 @@ namespace DynamicLoad {
 
         constructor(elemOrHtml: any, parent?: HTMLElement) {
             if (elemOrHtml instanceof HTMLElement) {
+                var temp = document.createElement("div");
+                temp.appendChild(elemOrHtml);
+
                 this.element = elemOrHtml;
-                this.elemHTML = elemOrHtml.innerHTML;
+                this.elemHTML = temp.innerHTML;
                 elemOrHtml.style.display = "none";
 
                 console.log(elemOrHtml.innerHTML);
