@@ -83,6 +83,7 @@ var DynamicLoad;
                     continue;
                 }
                 var bindedNode = this.bindedNode(data[i]);
+                console.log(bindedNode);
                 var nextSibling = nextNodeIndex == -1 ? (this.element ? this.element.nextSibling : this.parent.firstChild) : this.cloneNodes[nextNodeIndex].node.nextSibling;
                 this.parent.insertBefore(bindedNode, nextSibling);
                 this.cloneNodes.splice(nextNodeIndex + 1, 0, {
@@ -103,7 +104,6 @@ var DynamicLoad;
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
             }
-            console.log(temp.firstChild);
             return temp.firstChild;
         };
         return Element;
