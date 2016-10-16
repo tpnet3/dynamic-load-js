@@ -1,15 +1,24 @@
 var DynamicLoad;
 (function (DynamicLoad) {
     var Element = (function () {
-        function Element(element) {
+        function Element(element, parent) {
             this.cloneNodes = [];
-            this.element = element;
-            this.elemNode = this.element.cloneNode(true);
-            this.element.style.display = "none";
+            if (parent)
+                parent.innerHTML = "";
+            if (element instanceof HTMLElement) {
+                this.element = element;
+                this.elemHTML = element.innerHTML;
+                this.parent = parent || element.parentNode;
+                element.style.display = "none";
+            }
+            else {
+                this.elemHTML = element;
+                this.parent = parent;
+            }
         }
         Element.prototype.bind = function (data) {
             for (var i = 1; i < this.cloneNodes.length; i++) {
-                this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                this.parent.removeChild(this.cloneNodes[i].node);
             }
             if (this.cloneNodes.length != 0) {
                 this.cloneNodes = [this.cloneNodes[0]];
@@ -17,8 +26,8 @@ var DynamicLoad;
                 for (var j = 0; j < keys.length; j++) {
                     if (this.cloneNodes[0].cloneData[keys[j]] != data[keys[j]]) {
                         var bindedNode = this.bindedNode(data);
-                        this.element.parentNode.insertBefore(bindedNode, this.cloneNodes[0].node.nextSibling);
-                        this.element.parentNode.removeChild(this.cloneNodes[0].node);
+                        this.parent.insertBefore(bindedNode, this.cloneNodes[0].node.nextSibling);
+                        this.parent.removeChild(this.cloneNodes[0].node);
                         this.cloneNodes[0].node = bindedNode;
                         this.cloneNodes[0].cloneData = JSON.parse(JSON.stringify(data));
                         break;
@@ -27,7 +36,7 @@ var DynamicLoad;
             }
             else {
                 var bindedNode = this.bindedNode(data);
-                this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
+                this.parent.insertBefore(bindedNode, this.element.nextSibling);
                 this.cloneNodes.push({
                     data: data,
                     cloneData: JSON.parse(JSON.stringify(data)),
@@ -42,8 +51,8 @@ var DynamicLoad;
                 for (var j = 0; j < keys.length; j++) {
                     if (this.cloneNodes[i].cloneData[keys[j]] != this.cloneNodes[i].data[keys[j]]) {
                         var bindedNode = this.bindedNode(this.cloneNodes[i].data);
-                        this.element.parentNode.insertBefore(bindedNode, this.cloneNodes[i].node.nextSibling);
-                        this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                        this.parent.insertBefore(bindedNode, this.cloneNodes[i].node.nextSibling);
+                        this.parent.removeChild(this.cloneNodes[i].node);
                         this.cloneNodes[i].node = bindedNode;
                         this.cloneNodes[i].cloneData = JSON.parse(JSON.stringify(this.cloneNodes[i].data));
                         break;
@@ -55,7 +64,7 @@ var DynamicLoad;
         Element.prototype.repeat = function (data, refresh) {
             for (var i = 0; i < this.cloneNodes.length; i++) {
                 if (data.indexOf(this.cloneNodes[i].data) == -1) {
-                    this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                    this.parent.removeChild(this.cloneNodes[i].node);
                     this.cloneNodes.splice(i, 1);
                     --i;
                 }
@@ -70,8 +79,8 @@ var DynamicLoad;
                     continue;
                 }
                 var bindedNode = this.bindedNode(data[i]);
-                var nextSibling = nextNodeIndex == -1 ? this.element.nextSibling : this.cloneNodes[nextNodeIndex].node.nextSibling;
-                this.element.parentNode.insertBefore(bindedNode, nextSibling);
+                var nextSibling = nextNodeIndex == -1 ? (this.element ? this.element.nextSibling : this.parent.firstChild) : this.cloneNodes[nextNodeIndex].node.nextSibling;
+                this.parent.insertBefore(bindedNode, nextSibling);
                 this.cloneNodes.splice(nextNodeIndex + 1, 0, {
                     data: data[i],
                     cloneData: JSON.parse(JSON.stringify(data[i])),
@@ -82,7 +91,7 @@ var DynamicLoad;
         };
         Element.prototype.bindedNode = function (data) {
             var temp = document.createElement("div");
-            temp.appendChild(this.elemNode.cloneNode(true));
+            temp.innerHTML = this.elemHTML;
             if (data) {
                 var keys = Object.keys(data);
                 for (var i = 0; i < keys.length; i++) {
@@ -255,6 +264,9 @@ var DynamicLoad;
     }());
     DynamicLoad.LoadCss = LoadCss;
 })(DynamicLoad || (DynamicLoad = {}));
+if (componentHandler && loading == urls.length) {
+    componentHandler.upgradeAllRegistered();
+}
 var DynamicLoad;
 (function (DynamicLoad) {
     var LoadHtml = (function () {
@@ -289,6 +301,9 @@ var DynamicLoad;
                     _this.element.innerHTML = "";
                 }
                 appendChildren(_this.element);
+                if (componentHandler) {
+                    componentHandler.upgradeAllRegistered();
+                }
                 callback();
             });
         }
@@ -598,16 +613,11 @@ var DynamicLoad;
                             destroyCss();
                         };
                         var loadJs = function (urls) {
-                            var loading = 0;
                             for (var i = 0; i < urls.length; i++) {
                                 var options = route.js[urls[i]];
                                 newJs.push({
                                     loadJs: DynamicLoad.LoadJs.getInstance(urls[i]).addCallback(function () {
                                         callFunc(options.create, window, options.data, Route.curParams);
-                                        loading++;
-                                        if (componentHandler && loading == urls.length) {
-                                            componentHandler.upgradeAllRegistered();
-                                        }
                                     }).load(),
                                     options: options
                                 });

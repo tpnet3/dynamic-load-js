@@ -3,18 +3,27 @@ namespace DynamicLoad {
     export class Element {
 
         element: HTMLElement;
-        elemNode: Node;
+        parent: Node;
+        elemHTML: string;
         cloneNodes = [];
 
-        constructor(element: HTMLElement) {
-            this.element = element;
-            this.elemNode = this.element.cloneNode(true);
-            this.element.style.display = "none";
+        constructor(element: any, parent?: HTMLElement) {
+            if (parent) parent.innerHTML = "";
+
+            if (element instanceof HTMLElement) {
+                this.element = element;
+                this.elemHTML = element.innerHTML;
+                this.parent = parent || element.parentNode;
+                element.style.display = "none";
+            } else {
+                this.elemHTML = element;
+                this.parent = parent;
+            }
         }
 
         bind(data: {[index: string]: any}): Element {
             for (var i = 1; i < this.cloneNodes.length; i++) {
-                this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                this.parent.removeChild(this.cloneNodes[i].node);
             }
 
             if (this.cloneNodes.length != 0) {
@@ -25,8 +34,8 @@ namespace DynamicLoad {
                 for (var j = 0; j < keys.length; j++) {
                     if (this.cloneNodes[0].cloneData[keys[j]] != data[keys[j]]) {
                         var bindedNode = this.bindedNode(data);
-                        this.element.parentNode.insertBefore(bindedNode, this.cloneNodes[0].node.nextSibling);
-                        this.element.parentNode.removeChild(this.cloneNodes[0].node);
+                        this.parent.insertBefore(bindedNode, this.cloneNodes[0].node.nextSibling);
+                        this.parent.removeChild(this.cloneNodes[0].node);
                         this.cloneNodes[0].node = bindedNode;
                         this.cloneNodes[0].cloneData = JSON.parse(JSON.stringify(data));
                         break;
@@ -34,7 +43,7 @@ namespace DynamicLoad {
                 }
             } else {
                 var bindedNode = this.bindedNode(data);
-                this.element.parentNode.insertBefore(bindedNode, this.element.nextSibling);
+                this.parent.insertBefore(bindedNode, this.element.nextSibling);
                 this.cloneNodes.push({
                     data: data,
                     cloneData: JSON.parse(JSON.stringify(data)),
@@ -52,8 +61,8 @@ namespace DynamicLoad {
                 for (var j = 0; j < keys.length; j++) {
                     if (this.cloneNodes[i].cloneData[keys[j]] != this.cloneNodes[i].data[keys[j]]) {
                         var bindedNode = this.bindedNode(this.cloneNodes[i].data);
-                        this.element.parentNode.insertBefore(bindedNode, this.cloneNodes[i].node.nextSibling);
-                        this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                        this.parent.insertBefore(bindedNode, this.cloneNodes[i].node.nextSibling);
+                        this.parent.removeChild(this.cloneNodes[i].node);
                         this.cloneNodes[i].node = bindedNode;
                         this.cloneNodes[i].cloneData = JSON.parse(JSON.stringify(this.cloneNodes[i].data));
                         break;
@@ -67,7 +76,7 @@ namespace DynamicLoad {
         repeat(data: [{[index: string]: any}], refresh?: boolean): Element {
             for (var i = 0; i < this.cloneNodes.length; i++) {
                 if (data.indexOf(this.cloneNodes[i].data) == -1) {
-                    this.element.parentNode.removeChild(this.cloneNodes[i].node);
+                    this.parent.removeChild(this.cloneNodes[i].node);
                     this.cloneNodes.splice(i, 1);
                     --i;
                 }
@@ -87,9 +96,9 @@ namespace DynamicLoad {
 
                 var bindedNode = this.bindedNode(data[i]);
 
-                var nextSibling = nextNodeIndex == -1 ? this.element.nextSibling : this.cloneNodes[nextNodeIndex].node.nextSibling;
+                var nextSibling = nextNodeIndex == -1 ? (this.element ? this.element.nextSibling : this.parent.firstChild) : this.cloneNodes[nextNodeIndex].node.nextSibling;
 
-                this.element.parentNode.insertBefore(bindedNode, nextSibling);
+                this.parent.insertBefore(bindedNode, nextSibling);
 
                 this.cloneNodes.splice(nextNodeIndex + 1, 0, {
                     data: data[i],
@@ -103,7 +112,7 @@ namespace DynamicLoad {
 
         private bindedNode(data: {[index: string]: any}): Node {
             var temp: HTMLDivElement = document.createElement("div");
-            temp.appendChild(this.elemNode.cloneNode(true));
+            temp.innerHTML = this.elemHTML;
 
             if (data) {
                 var keys = Object.keys(data);

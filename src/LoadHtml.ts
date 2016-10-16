@@ -1,4 +1,7 @@
-declare var componentHandler: any;
+
+                                        if (componentHandler && loading == urls.length) {
+                                            componentHandler.upgradeAllRegistered();
+                                        }declare var componentHandler: any;
 
 namespace DynamicLoad {
 
@@ -68,6 +71,10 @@ namespace DynamicLoad {
                     }
 
                     appendChildren(this.element);
+
+                    if (componentHandler) {
+                        componentHandler.upgradeAllRegistered();
+                    }
 
                     callback();
                 });
