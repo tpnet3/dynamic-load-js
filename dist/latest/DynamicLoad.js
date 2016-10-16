@@ -25,6 +25,9 @@ var DynamicLoad;
                 this.parent = parent;
             }
         }
+        Element.prototype.getNodes = function () {
+            return this.cloneNodes;
+        };
         Element.prototype.bind = function (data) {
             for (var i = 1; i < this.cloneNodes.length; i++) {
                 this.parent.removeChild(this.cloneNodes[i].node);

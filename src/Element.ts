@@ -30,7 +30,10 @@ namespace DynamicLoad {
                 if (parent) parent.innerHTML = "";
                 this.parent = parent;
             }
+        }
 
+        getNodes(): [{nodes: Node[]}] {
+            return <[{nodes: Node[]}]>this.cloneNodes;
         }
 
         bind(data: {[index: string]: any}): Element {
