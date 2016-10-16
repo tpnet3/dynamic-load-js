@@ -8,11 +8,11 @@ var DynamicLoad;
                 temp.appendChild(elemOrHtml.cloneNode(true));
                 this.element = elemOrHtml;
                 this.elemHTML = temp.innerHTML;
-                elemOrHtml.innerHTML = "";
                 elemOrHtml.style.display = "none";
                 if (parent)
                     parent.innerHTML = "";
                 this.parent = parent || elemOrHtml.parentNode;
+                elemOrHtml.parentNode.removeChild(elemOrHtml);
             }
             else {
                 this.elemHTML = elemOrHtml;
