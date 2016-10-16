@@ -18,7 +18,7 @@ namespace DynamicLoad {
 
             this.http = Http.get(src)
                 .addCallback((status: number, responseText: string) => {
-                    var temp: HTMLTemplateElement = document.createElement("template");
+                    var temp: HTMLDivElement = document.createElement("div");
                     temp.innerHTML = responseText;
 
                     //var tempBody: HTMLBodyElement = temp.getElementsByTagName("body")[0];
@@ -40,7 +40,7 @@ namespace DynamicLoad {
                     };
 
                     var appendChildren = (elem: HTMLElement) => {
-                        var childNodes = temp.content.childNodes;
+                        var childNodes = temp.childNodes;
 
                         for (var i = 0; i < childNodes.length; i++) {
                             elem.appendChild(childNodes[i]);
