@@ -293,8 +293,8 @@ var DynamicLoad;
         };
         Listener.isElementInViewport = function (el) {
             var rect = el.getBoundingClientRect();
-            return (rect.top >= 0 &&
-                rect.left >= 0);
+            return (rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.left <= (window.innerWidth || document.documentElement.clientWidth));
         };
         return Listener;
     }());
