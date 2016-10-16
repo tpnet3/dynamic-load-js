@@ -102,7 +102,7 @@ namespace DynamicLoad {
 
                 var bindedNode = this.bindedNode(data[i]);
 
-                console.log(bindedNode);
+                console.log(this.parent);
 
                 var nextSibling = nextNodeIndex == -1 ? (this.element ? this.element.nextSibling : this.parent.firstChild) : this.cloneNodes[nextNodeIndex].node.nextSibling;
 
