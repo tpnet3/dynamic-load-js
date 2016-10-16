@@ -103,9 +103,8 @@ var DynamicLoad;
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
             }
-            console.log(temp.innerHTML);
-            console.log(temp.childNodes);
-            return temp.childNodes[0];
+            console.log(temp.firstChild);
+            return temp.firstChild;
         };
         return Element;
     }());

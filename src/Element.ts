@@ -129,10 +129,9 @@ namespace DynamicLoad {
                 }
             }
 
-            console.log(temp.innerHTML);
-            console.log(temp.childNodes);
+            console.log(temp.firstChild);
 
-            return temp.childNodes[0];
+            return temp.firstChild;
         }
     }
 }
