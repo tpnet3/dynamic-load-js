@@ -154,6 +154,13 @@ namespace DynamicLoad {
                 }
             }
 
+            console.log(temp.innerHTML);
+            console.log(temp.childNodes.length);
+
+            for (var j = 0; j < temp.childNodes.length; j++) {
+                console.log(temp.childNodes[j]);
+            }
+
             var array = [];
 
             array.length = temp.childNodes.length;
@@ -161,9 +168,6 @@ namespace DynamicLoad {
             for (var i = 0; i < temp.childNodes.length; i++) {
                 array[i] = temp.childNodes[i];
             }
-
-            console.log(temp.innerHTML);
-            console.log(temp.childNodes.length);
 
             return array;
         }
