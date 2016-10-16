@@ -11,7 +11,7 @@ namespace DynamicLoad {
             this.element = element;
         }
 
-        inViewport(el: HTMLElement, callback): Listener {
+        inViewport(el: HTMLElement, callback: () => void): Listener {
             var handler = Listener.onVisibilityChange(el, callback);
 
             this.handlers.push({
