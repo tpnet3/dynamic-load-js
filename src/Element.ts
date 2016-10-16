@@ -10,7 +10,7 @@ namespace DynamicLoad {
         constructor(elemOrHtml: any, parent?: HTMLElement) {
             if (elemOrHtml instanceof HTMLElement) {
                 var temp = document.createElement("div");
-                temp.appendChild(elemOrHtml);
+                temp.appendChild(elemOrHtml.cloneNode(true));
 
                 this.element = elemOrHtml;
                 this.elemHTML = temp.innerHTML;
