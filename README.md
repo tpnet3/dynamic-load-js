@@ -12,29 +12,34 @@ Download via bower
 bower install dynamic-load-js
 ```
 
-##DynamicLoad.Element
+## License
+[MIT License](LICENSE)
 
-###constructor(element: HTMLElement)
+# API Reference
+
+## DynamicLoad.Element
+
+### constructor(element: HTMLElement)
 ```javascript
 var element = new DynamicLoad.Element(document.getElementById("foo"));
 ```
 
-###getNodes(): [{nodes: Node[]}]
+### getNodes(): [{nodes: Node[]}]
 ```javascript
 element.getNodes();
 ```
 
-###bind(data: {[index: string]: any}): Element
+### bind(data: {[index: string]: any}): Element
 ```javascript
 element.bind({ bar: "first" });
 ```
 
-###refresh(): Element
+### refresh(): Element
 ```javascript
 element.refresh();
 ```
 
-###repeat(data: [{[index: string]: any}], refresh?: boolean): Element
+### repeat(data: [{[index: string]: any}], refresh?: boolean): Element
 ```javascript
 element.repeat([{ bar: "first" }, { bar: "second" }], true);
 ```
@@ -112,6 +117,3 @@ listener.inViewport(document.getElementById("bar"), function(visible) {
 ```javascript
 listener.destroy();
 ```
-
-## License
-[MIT License](LICENSE)
