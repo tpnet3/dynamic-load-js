@@ -9,7 +9,6 @@ var DynamicLoad;
                 this.element = elemOrHtml;
                 this.elemHTML = temp.innerHTML;
                 elemOrHtml.style.display = "none";
-                console.log(elemOrHtml.innerHTML);
                 if (parent)
                     parent.innerHTML = "";
                 this.parent = parent || elemOrHtml.parentNode;
