@@ -34,6 +34,8 @@ var DynamicLoad;
                     node: bindedNode
                 });
             }
+            if (componentHandler)
+                componentHandler.upgradeAllRegistered();
             return this;
         };
         Element.prototype.refresh = function () {
@@ -50,6 +52,8 @@ var DynamicLoad;
                     }
                 }
             }
+            if (componentHandler)
+                componentHandler.upgradeAllRegistered();
             return this;
         };
         Element.prototype.repeat = function (data, refresh) {
@@ -78,6 +82,8 @@ var DynamicLoad;
                     node: bindedNode
                 });
             }
+            if (componentHandler)
+                componentHandler.upgradeAllRegistered();
             return this;
         };
         Element.prototype.bindedNode = function (data) {
@@ -270,7 +276,7 @@ var DynamicLoad;
                 if (_this.dataBindRule) {
                     var keys = Object.keys(_this.dataBindRule);
                     for (var i = 0; i < keys.length; i++) {
-                        var regex = new RegExp("/{{" + keys[i] + "}}/g");
+                        var regex = new RegExp("{{" + keys[i] + "}}", "g");
                         temp.innerHTML = temp.innerHTML.replace(regex, _this.dataBindRule[keys[i]]);
                     }
                 }

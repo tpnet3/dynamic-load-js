@@ -42,6 +42,9 @@ namespace DynamicLoad {
                 });
             }
 
+            // Tric MDL
+            if (componentHandler) componentHandler.upgradeAllRegistered();
+
             return this;
         }
 
@@ -60,6 +63,9 @@ namespace DynamicLoad {
                     }
                 }
             }
+
+            // Tric MDL
+            if (componentHandler) componentHandler.upgradeAllRegistered();
 
             return this;
         }
@@ -97,6 +103,9 @@ namespace DynamicLoad {
                     node: bindedNode
                 });
             }
+
+            // Tric MDL
+            if (componentHandler) componentHandler.upgradeAllRegistered();
 
             return this;
         }
