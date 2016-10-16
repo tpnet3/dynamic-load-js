@@ -67,6 +67,8 @@ namespace DynamicLoad {
         private static isElementInViewport(el) {
             var rect = el.getBoundingClientRect();
 
+            console.log(rect);
+
             return (
                 rect.top >= 0 &&
                 rect.left >= 0 &&
