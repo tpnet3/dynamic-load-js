@@ -118,8 +118,9 @@ var DynamicLoad;
                     temp.innerHTML = temp.innerHTML.replace(regex, data[keys[i]]);
                 }
             }
+            console.log(temp.childNodes);
+            console.log(Array.prototype.slice.call(temp.childNodes));
             return Array.prototype.slice.call(temp.childNodes);
-            ;
         };
         return Element;
     }());

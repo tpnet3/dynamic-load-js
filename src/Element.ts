@@ -154,7 +154,10 @@ namespace DynamicLoad {
                 }
             }
 
-            return Array.prototype.slice.call(temp.childNodes);;
+            console.log(temp.childNodes);
+            console.log(Array.prototype.slice.call(temp.childNodes));
+
+            return Array.prototype.slice.call(temp.childNodes);
         }
     }
 }
